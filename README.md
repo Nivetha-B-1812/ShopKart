@@ -1,3 +1,5 @@
+```text
+
 🛒 ShopKart
 
 🛍️ Shop More, Worry Less.
@@ -158,7 +160,7 @@ Orders can also be marked as:
 
 ---
 
-```text
+
 📁 Project Structure
 
 ShopKart/
@@ -212,7 +214,6 @@ ShopKart/
         ├── categories/
         └── products/
 
-```
 
 ---
 
@@ -360,3 +361,5 @@ This project is developed for academic and educational purposes.
 Shop More, Worry Less.
 
 Built with HTML, CSS, JavaScript, Python, Flask & SQLAlchemy.
+
+```
