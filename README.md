@@ -212,6 +212,8 @@ ShopKart/
         ├── categories/
         └── products/
 
+```
+
 ---
 
 ⚙️ Installation & Setup
