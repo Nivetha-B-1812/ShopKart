@@ -1,0 +1,422 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} - ShopKart{% endblock %}
+
+{% block content %}
+
+<section class="product-details-page">
+
+    <div class="product-details">
+
+        <!-- PRODUCT IMAGE -->
+        <div class="product-details-image">
+
+            <img
+                src="{{ url_for(
+                    'static',
+                    filename='images/products/' + product.category.name + '/' + product.image
+                ) }}"
+                alt="{{ product.name }}"
+            >
+
+        </div>
+
+
+        <!-- PRODUCT INFORMATION -->
+        <div class="product-details-info">
+
+            <p class="section-label">SHOPKART</p>
+
+            <h1>{{ product.name }}</h1>
+
+            <p class="details-category">
+                {{ product.category.name }}
+            </p>
+
+            <div class="product-rating">
+                ★ {{ product.rating }}
+            </div>
+
+            <div class="details-price">
+               ₹{{ "%.2f"|format(product.price) }}
+            </div>
+
+            <p class="details-description">
+                {{ product.description }}
+            </p>
+
+            <p class="stock-status">
+                In Stock
+            </p>
+
+
+                         <!-- QUANTITY -->
+            <div class="quantity-box">
+
+                <button
+                    type="button"
+                    class="quantity-minus"
+                    id="quantityMinus"
+                    aria-label="Decrease quantity">
+                    −
+                </button>
+
+                <span
+                    class="quantity-value"
+                    id="quantityValue">
+                    1
+                </span>
+
+                <button
+                    type="button"
+                    class="quantity-plus"
+                    id="quantityPlus"
+                    aria-label="Increase quantity">
+                    +
+                </button>
+
+            </div>
+
+            <!-- ACTIONS -->
+            <div class="details-actions">
+
+                <!-- ADD TO CART -->
+                <button
+                    type="button"
+                    class="add-cart-btn"
+                    id="addToCartBtn"
+                    data-product-id="{{ product.id }}">
+                    Add to Cart
+                </button>
+
+
+                <!-- BUY NOW -->
+                <button
+                    type="button"
+                    class="buy-now-btn"
+                    id="buyNowBtn"
+                    data-product-id="{{ product.id }}">
+                    Buy Now
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         ADDITIONAL PRODUCT INFORMATION
+    ====================================================== -->
+
+    <div class="additional-product-info">
+
+        <div class="info-header">
+
+            <p class="section-label">
+                PRODUCT INFORMATION
+            </p>
+
+            <h2>
+                Additional Information
+            </h2>
+
+            <p>
+                Everything you need to know about this product
+                before making your purchase.
+            </p>
+
+        </div>
+
+
+        <!-- OVERVIEW -->
+        <div class="info-section">
+
+            <h3>
+                Product Overview
+            </h3>
+
+            <p>
+                {{ product.name }} is a quality product available
+                on ShopKart. It is carefully selected to provide
+                customers with a reliable shopping experience,
+                excellent value and everyday usability.
+            </p>
+
+        </div>
+
+
+        <!-- KEY FEATURES -->
+        <div class="info-section">
+
+            <h3>
+                Key Features
+            </h3>
+
+            <ul class="feature-list">
+
+                <li>
+                    <span>✓</span>
+                    High-quality product
+                </li>
+
+                <li>
+                    <span>✓</span>
+                    Carefully selected by ShopKart
+                </li>
+
+                <li>
+                    <span>✓</span>
+                    Reliable and convenient to use
+                </li>
+
+                <li>
+                    <span>✓</span>
+                    Secure online shopping experience
+                </li>
+
+                <li>
+                    <span>✓</span>
+                    Available for delivery
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- SPECIFICATIONS -->
+        <div class="info-section">
+
+            <h3>
+                Specifications
+            </h3>
+
+            <div class="specifications">
+
+                <div class="spec-row">
+
+                    <span>
+                        Product Name
+                    </span>
+
+                    <strong>
+                        {{ product.name }}
+                    </strong>
+
+                </div>
+
+
+                <div class="spec-row">
+
+                    <span>
+                        Category
+                    </span>
+
+                    <strong>
+                        {{ product.category.name }}
+                    </strong>
+
+                </div>
+
+
+                <div class="spec-row">
+
+                    <span>
+                        Price
+                    </span>
+
+                    <strong>
+                        ₹{{ "%.2f"|format(product.price) }}
+                    </strong>
+
+                </div>
+
+
+                <div class="spec-row">
+
+                    <span>
+                        Rating
+                    </span>
+
+                    <strong>
+                        ★ {{ product.rating }} / 5
+                    </strong>
+
+                </div>
+
+
+                <div class="spec-row">
+
+                    <span>
+                        Availability
+                    </span>
+
+                    <strong class="available">
+                        In Stock
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DELIVERY -->
+        <div class="info-section">
+
+            <h3>
+                Delivery Information
+            </h3>
+
+            <p>
+                ShopKart provides convenient delivery options.
+                Delivery availability and estimated delivery time
+                may vary depending on your location.
+            </p>
+
+        </div>
+
+
+        <!-- RETURN POLICY -->
+        <div class="info-section">
+
+            <h3>
+                Return & Support
+            </h3>
+
+            <p>
+                If you receive a damaged or incorrect product,
+                you can contact ShopKart support for assistance.
+                Product return eligibility may vary depending
+                on the product category.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     PRODUCT PAGE JAVASCRIPT
+========================================================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const quantityValue =
+        document.getElementById("quantityValue");
+
+    const quantityMinus =
+        document.getElementById("quantityMinus");
+
+    const quantityPlus =
+        document.getElementById("quantityPlus");
+
+    const buyNowBtn =
+        document.getElementById("buyNowBtn");
+
+    const productId =
+        buyNowBtn.dataset.productId;
+
+
+    let quantity = 1;
+
+
+    /* -----------------------------------------
+       DECREASE QUANTITY
+    ----------------------------------------- */
+
+    quantityMinus.addEventListener("click", function () {
+
+        if (quantity > 1) {
+            quantity--;
+
+            quantityValue.textContent = quantity;
+        }
+
+    });
+
+
+    /* -----------------------------------------
+       INCREASE QUANTITY
+    ----------------------------------------- */
+
+    quantityPlus.addEventListener("click", function () {
+
+        if (quantity < 10) {
+            quantity++;
+
+            quantityValue.textContent = quantity;
+        }
+
+    });
+
+
+    /* -----------------------------------------
+       BUY NOW
+    ----------------------------------------- */
+
+    buyNowBtn.addEventListener("click", function () {
+
+        buyNowBtn.disabled = true;
+        buyNowBtn.textContent = "Processing...";
+
+
+        fetch("/buy-now", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                product_id: productId,
+                quantity: quantity
+            })
+
+        })
+
+        .then(response => response.json())
+
+        .then(data => {
+
+            if (data.success) {
+
+                window.location.href = "/checkout";
+
+            } else {
+
+                alert(data.message || "Unable to continue.");
+
+                buyNowBtn.disabled = false;
+                buyNowBtn.textContent = "Buy Now";
+
+            }
+
+        })
+
+        .catch(error => {
+
+            console.error("Buy Now Error:", error);
+
+            alert("Something went wrong. Please try again.");
+
+            buyNowBtn.disabled = false;
+            buyNowBtn.textContent = "Buy Now";
+
+        });
+
+    });
+
+});
+
+</script>
+
+{% endblock %}

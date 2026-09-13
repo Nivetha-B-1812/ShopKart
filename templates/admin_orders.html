@@ -1,0 +1,242 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Orders - ShopKart{% endblock %}
+
+{% block content %}
+
+<section class="admin-orders-page">
+
+    <div class="admin-orders-container">
+
+        <div class="admin-orders-header">
+            <div>
+                <p class="section-label">SHOPKART ADMIN</p>
+                <h1>Manage Orders</h1>
+                <p>View customer orders and update their delivery status.</p>
+            </div>
+
+            <a href="{{ url_for('home') }}" class="admin-back-btn">
+                Back to Shop
+            </a>
+        </div>
+
+
+        {% if orders %}
+
+        <div class="admin-orders-list">
+
+            {% for order in orders %}
+
+            <article class="admin-order-card">
+
+                <div class="admin-order-top">
+
+                    <div>
+                        <span class="admin-order-label">
+                            Order ID
+                        </span>
+
+                        <strong class="admin-order-id">
+                            {{ order.order_id }}
+                        </strong>
+                    </div>
+
+                    <span class="admin-current-status
+                        {% if order.status == 'Confirmed' %}confirmed
+                        {% elif order.status == 'Packed' %}packed
+                        {% elif order.status == 'Shipped' %}shipped
+                        {% elif order.status == 'Delivered' %}delivered
+                        {% elif order.status == 'Cancelled' %}cancelled
+                        {% endif %}
+                    ">
+                        {{ order.status }}
+                    </span>
+
+                </div>
+
+
+                <div class="admin-order-info">
+
+                    <div>
+                        <span>Customer</span>
+                        <strong>{{ order.full_name }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Email</span>
+                        <strong>{{ order.email }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Order Date</span>
+                        <strong>
+                            {{ order.created_at.strftime('%d %b %Y') }}
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Total</span>
+                        <strong class="admin-order-total">
+                            ₹{{ "%.2f"|format(order.total) }}
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="admin-order-actions">
+
+                    <label for="status-{{ order.id }}">
+                        Update Status
+                    </label>
+
+                    <select
+                        id="status-{{ order.id }}"
+                        class="admin-status-select"
+                        data-order-id="{{ order.id }}"
+                    >
+
+                        <option value="Confirmed"
+                            {% if order.status == 'Confirmed' %}selected{% endif %}>
+                            Confirmed
+                        </option>
+
+                        <option value="Packed"
+                            {% if order.status == 'Packed' %}selected{% endif %}>
+                            Packed
+                        </option>
+
+                        <option value="Shipped"
+                            {% if order.status == 'Shipped' %}selected{% endif %}>
+                            Shipped
+                        </option>
+
+                        <option value="Delivered"
+                            {% if order.status == 'Delivered' %}selected{% endif %}>
+                            Delivered
+                        </option>
+
+                        <option value="Cancelled"
+                            {% if order.status == 'Cancelled' %}selected{% endif %}>
+                            Cancelled
+                        </option>
+
+                    </select>
+
+                    <button
+                        type="button"
+                        class="admin-update-btn"
+                        data-order-id="{{ order.id }}"
+                    >
+                        Update Status
+                    </button>
+                    <a href="{{ url_for('admin_order_details', order_id=order.id) }}"
+   class="admin-view-details-btn">
+    View Details
+</a>
+
+                </div>
+
+            </article>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <div class="admin-empty-orders">
+
+            <h2>No Orders Found</h2>
+
+            <p>
+                There are currently no customer orders.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const updateButtons =
+        document.querySelectorAll(".admin-update-btn");
+
+    updateButtons.forEach(function (button) {
+
+        button.addEventListener("click", function () {
+
+            const orderId =
+                button.dataset.orderId;
+
+            const select =
+                document.querySelector(
+                    '.admin-status-select[data-order-id="' +
+                    orderId +
+                    '"]'
+                );
+
+            const status = select.value;
+
+            button.disabled = true;
+            button.textContent = "Updating...";
+
+            fetch("/admin/update-order-status/" + orderId, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    status: status
+                })
+            })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+
+                if (data.success) {
+
+                    window.location.reload();
+
+                } else {
+
+                    alert(
+                        data.message ||
+                        "Unable to update order status."
+                    );
+
+                    button.disabled = false;
+                    button.textContent = "Update Status";
+                }
+
+            })
+            .catch(function (error) {
+
+                console.error(
+                    "Order Status Error:",
+                    error
+                );
+
+                alert(
+                    "Something went wrong. Please try again."
+                );
+
+                button.disabled = false;
+                button.textContent = "Update Status";
+            });
+
+        });
+
+    });
+
+});
+</script>
+
+{% endblock %}

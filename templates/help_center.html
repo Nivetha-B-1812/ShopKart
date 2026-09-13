@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Help Center - ShopKart{% endblock %}
+
+{% block content %}
+
+<section class="help-page">
+
+    <div class="help-header">
+        <p class="section-label">SHOPKART SUPPORT</p>
+        <h1>Help Center</h1>
+        <p>
+            Find answers to common questions and get help with your ShopKart experience.
+        </p>
+    </div>
+
+    <div class="help-grid">
+
+        <div class="help-card">
+            <div class="help-icon">
+                ?
+            </div>
+            <h3>How to place an order?</h3>
+            <p>
+                Select a product, choose the quantity, add it to your cart,
+                and continue to checkout.
+            </p>
+        </div>
+
+        <div class="help-card">
+            <div class="help-icon">
+                +
+            </div>
+            <h3>How to add products to cart?</h3>
+            <p>
+                Open any product and select the Add to Cart button.
+                You can update the quantity from your cart.
+            </p>
+        </div>
+
+        <div class="help-card">
+            <div class="help-icon">
+                $
+            </div>
+            <h3>Payment Information</h3>
+            <p>
+                ShopKart currently supports Cash on Delivery and simulated
+                online payment for project demonstration.
+            </p>
+        </div>
+
+        <div class="help-card">
+            <div class="help-icon">
+                ↻
+            </div>
+            <h3>Order Tracking</h3>
+            <p>
+                Open My Orders from your account to view your order details
+                and current order status.
+            </p>
+        </div>
+
+        <div class="help-card">
+            <div class="help-icon">
+                A
+            </div>
+            <h3>Account Help</h3>
+            <p>
+                You can update your profile information, phone number,
+                delivery address and password from My Account.
+            </p>
+        </div>
+
+        <div class="help-card">
+            <div class="help-icon">
+                @
+            </div>
+            <h3>Need More Help?</h3>
+            <p>
+                If you cannot find the answer you need, contact the
+                ShopKart support team for assistance.
+            </p>
+
+            <a href="{{ url_for('contact') }}" class="help-contact-btn">
+                Contact Us
+            </a>
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

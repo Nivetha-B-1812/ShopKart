@@ -1,0 +1,500 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Profile - ShopKart{% endblock %}
+
+{% block content %}
+
+<section class="edit-profile-page">
+
+    <div class="edit-profile-container">
+
+        <!-- BACK TO PROFILE -->
+
+        <a href="{{ url_for('profile') }}"
+           class="edit-profile-back">
+
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 aria-hidden="true">
+
+                <path d="M19 12H5"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"/>
+
+                <path d="M11 6L5 12L11 18"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"/>
+
+            </svg>
+
+            Back to Profile
+
+        </a>
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="edit-profile-header">
+
+            <div class="edit-profile-header-icon">
+
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     aria-hidden="true">
+
+                    <circle cx="12"
+                            cy="8"
+                            r="3.5"
+                            stroke="currentColor"
+                            stroke-width="1.8"/>
+
+                    <path d="M5 20C5.8 16.3 8.1 14.5 12 14.5C15.9 14.5 18.2 16.3 19 20"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          stroke-linecap="round"/>
+
+                </svg>
+
+            </div>
+
+
+            <div>
+
+                <p class="section-label">
+                    SHOPKART ACCOUNT
+                </p>
+
+                <h1>
+                    Edit Profile
+                </h1>
+
+                <p>
+                    Update your personal information
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- EDIT PROFILE CARD -->
+
+        <div class="edit-profile-card">
+
+            <div class="form-section">
+
+
+                <!-- FORM HEADER -->
+
+                <div class="form-section-header">
+
+                    <div class="form-section-icon">
+
+                        <svg viewBox="0 0 24 24"
+                             fill="none"
+                             aria-hidden="true">
+
+                            <path d="M4 20H8L19 9C20.1 7.9 20.1 6.1 19 5C17.9 3.9 16.1 3.9 15 5L4 16V20Z"
+                                  stroke="currentColor"
+                                  stroke-width="1.8"
+                                  stroke-linejoin="round"/>
+
+                            <path d="M13.5 6.5L17.5 10.5"
+                                  stroke="currentColor"
+                                  stroke-width="1.8"/>
+
+                        </svg>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Personal Information
+                        </h2>
+
+                        <p>
+                            Update your name and contact number.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="profile-divider"></div>
+
+
+                <!-- FORM -->
+
+                <form id="editProfileForm">
+
+
+                    <div class="form-grid">
+
+
+                        <!-- FULL NAME -->
+
+                        <div class="form-group">
+
+                            <label for="fullName">
+                                Full Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="fullName"
+                                name="fullName"
+                                value="{{ user.full_name }}"
+                                placeholder="Enter your full name"
+                                autocomplete="name"
+                                required>
+
+                        </div>
+
+
+                        <!-- EMAIL -->
+
+                        <div class="form-group">
+
+                            <label for="profileEmail">
+                                Email Address
+                            </label>
+
+                            <input
+                                type="email"
+                                id="profileEmail"
+                                name="email"
+                                value="{{ user.email }}"
+                                readonly>
+
+                            <small>
+                                Email address cannot be changed here.
+                            </small>
+
+                        </div>
+
+
+                        <!-- PHONE -->
+
+                        <div class="form-group">
+
+                            <label for="phone">
+                                Phone Number
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                value="{{ user.phone or '' }}"
+                                placeholder="Enter 10 digit phone number"
+                                maxlength="10"
+                                inputmode="numeric"
+                                autocomplete="tel">
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- MESSAGE -->
+
+                    <div
+                        id="profileMessage"
+                        class="profile-message"
+                        style="display:none;">
+                    </div>
+
+
+                    <!-- ACTION BUTTONS -->
+
+                    <div class="edit-profile-actions">
+
+
+                        <a href="{{ url_for('profile') }}"
+                           class="profile-cancel-btn">
+
+                            Cancel
+
+                        </a>
+
+
+                        <button
+                            type="submit"
+                            class="profile-save-btn"
+                            id="saveProfileBtn">
+
+                            <svg viewBox="0 0 24 24"
+                                 fill="none"
+                                 aria-hidden="true">
+
+                                <path d="M5 12.5L9.5 17L19 7"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"/>
+
+                            </svg>
+
+                            Save Changes
+
+                        </button>
+
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+        <!-- DELIVERY ADDRESS NOTE -->
+
+        <div class="address-separate-note">
+
+            <div class="address-note-icon">
+
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     aria-hidden="true">
+
+                    <path d="M20 10C20 15.5 12 21 12 21C12 21 4 15.5 4 10C4 5.6 7.6 3 12 3C16.4 3 20 5.6 20 10Z"
+                          stroke="currentColor"
+                          stroke-width="1.8"/>
+
+                    <circle cx="12"
+                            cy="10"
+                            r="2.5"
+                            stroke="currentColor"
+                            stroke-width="1.8"/>
+
+                </svg>
+
+            </div>
+
+
+            <div>
+
+                <h3>
+                    Delivery Address
+                </h3>
+
+                <p>
+                    To add or update your delivery address,
+                    use the <strong>Edit Address</strong>
+                    option in your Profile page.
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     EDIT PROFILE JAVASCRIPT
+====================================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form =
+        document.getElementById("editProfileForm");
+
+    const message =
+        document.getElementById("profileMessage");
+
+    const saveButton =
+        document.getElementById("saveProfileBtn");
+
+
+    if (!form) {
+        console.error("Edit Profile form not found.");
+        return;
+    }
+
+
+    form.addEventListener("submit", function (event) {
+
+        event.preventDefault();
+
+
+        const fullNameElement =
+            document.getElementById("fullName");
+
+        const phoneElement =
+            document.getElementById("phone");
+
+
+        const fullName =
+            fullNameElement.value.trim();
+
+        const phone =
+            phoneElement.value.trim();
+
+
+        /* FULL NAME VALIDATION */
+
+        if (!fullName) {
+
+            message.textContent =
+                "Please enter your full name.";
+
+            message.className =
+                "profile-message error";
+
+            message.style.display =
+                "block";
+
+            return;
+        }
+
+
+        /* PHONE VALIDATION */
+
+        if (
+            phone &&
+            (!/^[0-9]+$/.test(phone) ||
+             phone.length !== 10)
+        ) {
+
+            message.textContent =
+                "Phone number must contain exactly 10 digits.";
+
+            message.className =
+                "profile-message error";
+
+            message.style.display =
+                "block";
+
+            return;
+        }
+
+
+        /* BUTTON STATE */
+
+        saveButton.disabled = true;
+
+        saveButton.textContent =
+            "Saving...";
+
+
+        /* SEND TO FLASK */
+
+        fetch("{{ url_for('edit_profile') }}", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+                fullName: fullName,
+                phone: phone
+
+            })
+
+        })
+
+
+        .then(function (response) {
+
+            return response.json();
+
+        })
+
+
+        .then(function (data) {
+
+            if (data.success) {
+
+                message.textContent =
+                    "Profile updated successfully.";
+
+                message.className =
+                    "profile-message success";
+
+                message.style.display =
+                    "block";
+
+
+                setTimeout(function () {
+
+                    window.location.href =
+                        "{{ url_for('profile') }}";
+
+                }, 800);
+
+
+            } else {
+
+                message.textContent =
+                    data.message ||
+                    "Unable to update profile.";
+
+                message.className =
+                    "profile-message error";
+
+                message.style.display =
+                    "block";
+
+
+                saveButton.disabled =
+                    false;
+
+                saveButton.textContent =
+                    "Save Changes";
+
+            }
+
+        })
+
+
+        .catch(function (error) {
+
+            console.error(
+                "Profile update error:",
+                error
+            );
+
+
+            message.textContent =
+                "Something went wrong. Please try again.";
+
+            message.className =
+                "profile-message error";
+
+            message.style.display =
+                "block";
+
+
+            saveButton.disabled =
+                false;
+
+            saveButton.textContent =
+                "Save Changes";
+
+        });
+
+    });
+
+});
+
+</script>
+
+{% endblock %}

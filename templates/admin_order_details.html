@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+
+{% block title %}Order Details - ShopKart{% endblock %}
+
+{% block content %}
+
+<section class="admin-order-details-page">
+
+    <div class="admin-order-details-container">
+
+        <!-- Header -->
+        <div class="admin-details-header">
+
+            <div>
+                <p class="section-label">SHOPKART ADMIN</p>
+
+                <h1>Order Details</h1>
+
+                <p>
+                    Complete information about this customer order.
+                </p>
+            </div>
+
+            <a href="{{ url_for('admin_orders') }}"
+               class="admin-back-btn">
+                Back to Orders
+            </a>
+
+        </div>
+
+
+        <!-- Order Card -->
+        <div class="admin-details-card">
+
+            <!-- Order Top -->
+            <div class="admin-details-top">
+
+                <div>
+                    <span class="admin-details-label">
+                        ORDER ID
+                    </span>
+
+                    <strong class="admin-details-order-id">
+                        {{ order.order_id }}
+                    </strong>
+                </div>
+
+                <span class="admin-current-status
+                    {% if order.status == 'Confirmed' %}confirmed
+                    {% elif order.status == 'Packed' %}packed
+                    {% elif order.status == 'Shipped' %}shipped
+                    {% elif order.status == 'Delivered' %}delivered
+                    {% elif order.status == 'Cancelled' %}cancelled
+                    {% endif %}">
+                    {{ order.status }}
+                </span>
+
+            </div>
+
+
+            <!-- Customer Information -->
+            <div class="admin-details-section">
+
+                <h2>Customer Information</h2>
+
+                <div class="admin-details-grid">
+
+                    <div>
+                        <span>Full Name</span>
+                        <strong>{{ order.full_name }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Email</span>
+                        <strong>{{ order.email }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Phone</span>
+                        <strong>{{ order.phone }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Order Date</span>
+                        <strong>
+                            {{ order.created_at.strftime('%d %b %Y, %I:%M %p') }}
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Delivery Address -->
+            <div class="admin-details-section">
+
+                <h2>Delivery Address</h2>
+
+                <div class="admin-address-box">
+
+                    <strong>{{ order.full_name }}</strong>
+
+                    <p>{{ order.address }}</p>
+
+                    <p>
+                        {{ order.city }},
+                        {{ order.state }} -
+                        {{ order.pincode }}
+                    </p>
+
+                    <p>
+                        Phone: {{ order.phone }}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Ordered Products -->
+            <div class="admin-details-section">
+
+                <h2>Ordered Products</h2>
+
+                <div class="admin-products-list">
+
+                    {% for item in order.items %}
+
+                    <div class="admin-product-row">
+
+                        <div class="admin-product-info">
+
+                            <strong>
+                                {{ item.product_name }}
+                            </strong>
+
+                            <span>
+                                Quantity: {{ item.quantity }}
+                            </span>
+
+                        </div>
+
+                        <div class="admin-product-price">
+
+                            <span>
+                                ₹{{ "%.2f"|format(item.product_price) }}
+                            </span>
+
+                            <strong>
+                                ₹{{ "%.2f"|format(item.subtotal) }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+
+            <!-- Payment & Total -->
+            <div class="admin-details-summary">
+
+                <div class="admin-summary-row">
+
+                    <span>Payment Method</span>
+
+                    <strong>
+                        {{ order.payment_method|upper }}
+                    </strong>
+
+                </div>
+
+                <div class="admin-summary-row admin-final-total">
+
+                    <span>Order Total</span>
+
+                    <strong>
+                        ₹{{ "%.2f"|format(order.total) }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- Status -->
+            <div class="admin-details-status">
+
+                <span>Current Order Status</span>
+
+                <strong>
+                    {{ order.status }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

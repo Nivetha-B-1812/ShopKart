@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}{{ category.name }} - ShopKart{% endblock %}
+
+{% block content %}
+
+<section class="category-page">
+
+    <div class="category-page-header">
+
+        <p class="section-label">SHOPKART</p>
+
+        <h1>{{ category.name }}</h1>
+
+        <p>{{ category.description }}</p>
+
+    </div>
+
+
+    <div class="product-grid">
+
+        {% for product in products %}
+
+        <article class="product-card">
+
+            <div class="product-image">
+
+                <img
+                src="{{ url_for('static', filename='images/products/' + category.name + '/' + product.image) }}"
+                >
+
+            </div>
+
+            <div class="product-info">
+
+                <h3>{{ product.name }}</h3>
+
+                <p class="product-category">
+                    {{ category.name }}
+                </p>
+
+                <div class="product-rating">★ {{ product.rating }}</div>
+
+                <p class="product-price">
+                    ₹{{ "%.2f"|format(product.price) }}
+                </p>
+
+                <p class="product-description">
+                    {{ product.description }}
+                </p>
+
+<div class="product-actions">
+    <button
+        type="button"
+        class="add-cart-btn search-add-cart"
+        data-product-id="{{ product.id }}">
+        Add to Cart
+    </button>
+
+    <a
+        href="{{ url_for('product_details', product_id=product.id) }}"
+        class="view-product-btn">
+        View Details
+    </a>
+</div>
+
+            </div>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

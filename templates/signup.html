@@ -1,0 +1,946 @@
+{% extends "base.html" %}
+
+{% block title %}Create Account - ShopKart{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+
+    <div class="auth-card">
+
+        <!-- SHOPKART BRAND -->
+        <div class="auth-brand">
+
+            <a href="{{ url_for('home') }}" class="brand">
+
+                <div class="brand-icon">
+
+                    <svg viewBox="0 0 32 32"
+                         aria-label="ShopKart Logo">
+
+                        <path
+                            d="M4 6H7L10 21C10.3 22.5 11.6 23.5 13.1 23.5H23.5C24.9 23.5 26.1 22.6 26.6 21.3L29 13H8.5"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.3"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+
+                        <circle
+                            cx="13"
+                            cy="28"
+                            r="2"
+                            fill="currentColor"
+                        />
+
+                        <circle
+                            cx="24"
+                            cy="28"
+                            r="2"
+                            fill="currentColor"
+                        />
+
+                    </svg>
+
+                </div>
+
+                <div class="brand-name">
+                    Shop<span>Kart</span>
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <!-- HEADING -->
+        <div class="auth-heading">
+
+            <h1>Create Your Account</h1>
+
+            <p>
+                Join ShopKart and start shopping today.
+            </p>
+
+        </div>
+
+
+        <!-- SIGNUP FORM -->
+        <form
+            class="auth-form"
+            id="signupForm"
+            novalidate
+        >
+
+            <!-- FULL NAME -->
+            <div class="form-group">
+
+                <label for="fullName">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="fullName"
+                    name="fullName"
+                    placeholder="Enter your full name"
+                    autocomplete="name"
+                    required
+                >
+
+            </div>
+
+
+            <!-- EMAIL -->
+            <div class="form-group">
+
+                <label for="signupEmail">
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="signupEmail"
+                    name="email"
+                    placeholder="Enter your email address"
+                    autocomplete="email"
+                    required
+                >
+
+            </div>
+
+
+            <!-- PHONE -->
+            <div class="form-group">
+
+                <label for="phone">
+                    Phone Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    placeholder="Enter your phone number"
+                    autocomplete="tel"
+                    maxlength="10"
+                    inputmode="numeric"
+                    required
+                >
+
+            </div>
+
+
+            <!-- PASSWORD -->
+            <div class="form-group">
+
+                <label for="signupPassword">
+                    Password
+                </label>
+
+                <div class="password-input-wrapper">
+
+                    <input
+                        type="password"
+                        id="signupPassword"
+                        name="password"
+                        placeholder="Create a strong password"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        id="signupPasswordToggle"
+                        aria-label="Show password"
+                    >
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            aria-hidden="true"
+                        >
+
+                            <path
+                                d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+
+                            <circle
+                                cx="12"
+                                cy="12"
+                                r="2.5"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                            />
+
+                        </svg>
+
+                    </button>
+
+                </div>
+
+                <p class="password-hint">
+                    Minimum 8 characters with uppercase, lowercase,
+                    number and special character.
+                </p>
+
+            </div>
+
+
+            <!-- CONFIRM PASSWORD -->
+            <div class="form-group">
+
+                <label for="confirmPassword">
+                    Confirm Password
+                </label>
+
+                <div class="password-input-wrapper">
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        placeholder="Re-enter your password"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        id="confirmPasswordToggle"
+                        aria-label="Show password"
+                    >
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            aria-hidden="true"
+                        >
+
+                            <path
+                                d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+
+                            <circle
+                                cx="12"
+                                cy="12"
+                                r="2.5"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                            />
+
+                        </svg>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- SUBMIT -->
+            <button
+                type="submit"
+                class="auth-submit-btn"
+                id="signupSubmitBtn"
+            >
+                Create Account
+            </button>
+
+        </form>
+
+
+        <!-- DIVIDER -->
+        <div class="auth-divider">
+
+            <span>
+                Already have an account?
+            </span>
+
+        </div>
+
+
+        <!-- LOGIN -->
+        <a
+            href="{{ url_for('login') }}"
+            class="create-account-btn"
+        >
+            Sign In to ShopKart
+        </a>
+
+
+        <!-- FOOTER -->
+        <p class="auth-footer-text">
+
+            By creating an account, you agree to ShopKart's
+            <a href="#">Terms</a>
+            and
+            <a href="#">Privacy Policy</a>.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    /* =====================================================
+       PASSWORD SHOW / HIDE
+    ===================================================== */
+
+    function setupPasswordToggle(inputId, buttonId) {
+
+        const input =
+            document.getElementById(inputId);
+
+        const button =
+            document.getElementById(buttonId);
+
+
+        if (!input || !button) {
+
+            return;
+        }
+
+
+        button.addEventListener("click", function (event) {
+
+            event.preventDefault();
+
+
+            if (input.type === "password") {
+
+                input.type = "text";
+
+                button.setAttribute(
+                    "aria-label",
+                    "Hide password"
+                );
+
+            } else {
+
+                input.type = "password";
+
+                button.setAttribute(
+                    "aria-label",
+                    "Show password"
+                );
+            }
+
+        });
+
+    }
+
+
+    setupPasswordToggle(
+        "signupPassword",
+        "signupPasswordToggle"
+    );
+
+
+    setupPasswordToggle(
+        "confirmPassword",
+        "confirmPasswordToggle"
+    );
+
+
+    /* =====================================================
+       SIGNUP FORM
+    ===================================================== */
+
+    const signupForm =
+        document.getElementById("signupForm");
+
+
+    if (!signupForm) {
+
+        return;
+    }
+
+
+    signupForm.addEventListener(
+        "submit",
+        function (event) {
+
+            event.preventDefault();
+
+
+            /* GET FORM VALUES */
+
+            const fullName =
+                document
+                    .getElementById("fullName")
+                    .value
+                    .trim();
+
+
+            const email =
+                document
+                    .getElementById("signupEmail")
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+
+            const phone =
+                document
+                    .getElementById("phone")
+                    .value
+                    .trim();
+
+
+            const password =
+                document
+                    .getElementById("signupPassword")
+                    .value;
+
+
+            const confirmPassword =
+                document
+                    .getElementById("confirmPassword")
+                    .value;
+
+
+            /* =================================================
+               VALIDATION
+            ================================================= */
+
+
+            if (
+                !fullName ||
+                !email ||
+                !phone ||
+                !password ||
+                !confirmPassword
+            ) {
+
+                alert(
+                    "Please fill in all required fields."
+                );
+
+                return;
+            }
+
+
+            /* EMAIL */
+
+            const emailPattern =
+                /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+            if (!emailPattern.test(email)) {
+
+                alert(
+                    "Please enter a valid email address."
+                );
+
+                return;
+            }
+
+
+            /* PHONE */
+
+            const phonePattern =
+                /^[0-9]{10}$/;
+
+
+            if (!phonePattern.test(phone)) {
+
+                alert(
+                    "Please enter a valid 10-digit phone number."
+                );
+
+                return;
+            }
+
+
+            /* PASSWORD LENGTH */
+
+            if (password.length < 8) {
+
+                alert(
+                    "Password must contain at least 8 characters."
+                );
+
+                return;
+            }
+
+
+            /* UPPERCASE */
+
+            if (!/[A-Z]/.test(password)) {
+
+                alert(
+                    "Password must contain at least one uppercase letter."
+                );
+
+                return;
+            }
+
+
+            /* LOWERCASE */
+
+            if (!/[a-z]/.test(password)) {
+
+                alert(
+                    "Password must contain at least one lowercase letter."
+                );
+
+                return;
+            }
+
+
+            /* NUMBER */
+
+            if (!/[0-9]/.test(password)) {
+
+                alert(
+                    "Password must contain at least one number."
+                );
+
+                return;
+            }
+
+
+            /* SPECIAL CHARACTER */
+
+            if (!/[^A-Za-z0-9]/.test(password)) {
+
+                alert(
+                    "Password must contain at least one special character."
+                );
+
+                return;
+            }
+
+
+            /* CONFIRM PASSWORD */
+
+            if (password !== confirmPassword) {
+
+                alert(
+                    "Passwords do not match."
+                );
+
+                return;
+            }
+
+
+            /* =================================================
+               SUBMIT BUTTON
+            ================================================= */
+
+            const submitButton =
+                document.getElementById(
+                    "signupSubmitBtn"
+                );
+
+
+            if (submitButton) {
+
+                submitButton.disabled = true;
+
+                submitButton.textContent =
+                    "Creating Account...";
+            }
+
+
+            /* =================================================
+               SEND TO FLASK
+            ================================================= */
+
+            fetch(
+                "{{ url_for('signup') }}",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        fullName: fullName,
+
+                        email: email,
+
+                        phone: phone,
+
+                        password: password,
+
+                        confirmPassword:
+                            confirmPassword
+
+                    })
+                }
+            )
+
+            .then(function (response) {
+
+                return response.json();
+
+            })
+
+            .then(function (data) {
+
+                if (data.success) {
+
+                    alert(
+                        data.message ||
+                        "Account created successfully."
+                    );
+
+
+                    window.location.href =
+                        "{{ url_for('login') }}";
+
+
+                } else {
+
+                    alert(
+                        data.message ||
+                        "Unable to create account."
+                    );
+
+
+                    if (submitButton) {
+
+                        submitButton.disabled =
+                            false;
+
+                        submitButton.textContent =
+                            "Create Account";
+                    }
+
+                }
+
+            })
+
+            .catch(function (error) {
+
+                console.error(
+                    "Signup Error:",
+                    error
+                );
+
+
+                alert(
+                    "Something went wrong. Please try again."
+                );
+
+
+                if (submitButton) {
+
+                    submitButton.disabled =
+                        false;
+
+                    submitButton.textContent =
+                        "Create Account";
+                }
+
+            });
+
+        }
+    );
+
+});
+
+</script>
+
+{% endblock %}
+
+/* =========================================================
+   SHOPKART AUTH - HORIZONTAL LAYOUT
+   LOGIN + SIGNUP
+   ========================================================= */
+
+.auth-page {
+    min-height: calc(100vh - 120px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 45px 20px;
+    background: #f6f7f9;
+}
+
+.auth-card {
+    width: min(900px, 100%);
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    padding: 38px 42px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+}
+
+/* BRAND */
+
+.auth-brand {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 18px;
+}
+
+.auth-brand .brand {
+    display: inline-flex;
+}
+
+/* HEADING */
+
+.auth-heading {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.auth-heading h1 {
+    margin: 0;
+    color: #111827;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.auth-heading p {
+    margin: 7px 0 0;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+/* FORM */
+
+.auth-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 22px;
+}
+
+/* Make submit button full width */
+
+.auth-form .auth-submit-btn {
+    grid-column: 1 / -1;
+}
+
+/* FORM GROUP */
+
+.form-group {
+    width: 100%;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 7px;
+    color: #374151;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.form-group input {
+    width: 100%;
+    height: 45px;
+    padding: 0 13px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #111827;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.form-group input:focus {
+    border-color: #ff9900;
+    box-shadow: 0 0 0 3px rgba(255, 153, 0, 0.12);
+}
+
+.form-group input::placeholder {
+    color: #9ca3af;
+}
+
+/* PASSWORD */
+
+.password-input-wrapper {
+    position: relative;
+}
+
+.password-input-wrapper input {
+    padding-right: 45px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: #6b7280;
+    cursor: pointer;
+}
+
+.password-toggle svg {
+    width: 18px;
+    height: 18px;
+}
+
+.password-hint {
+    margin: 6px 0 0;
+    color: #9ca3af;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+/* SUBMIT */
+
+.auth-submit-btn {
+    width: 100%;
+    height: 46px;
+    margin-top: 4px;
+    border: none;
+    border-radius: 8px;
+    background: #ff9900;
+    color: #ffffff !important;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease,
+                transform 0.2s ease;
+}
+
+.auth-submit-btn:hover {
+    background: #e88a00;
+    transform: translateY(-1px);
+}
+
+.auth-submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* DIVIDER */
+
+.auth-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 25px 0 15px;
+    color: #9ca3af;
+    font-size: 11px;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #e5e7eb;
+}
+
+/* SIGN IN / CREATE ACCOUNT BUTTON */
+
+.create-account-btn {
+    width: 100%;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #374151;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    transition: border-color 0.2s ease,
+                background 0.2s ease;
+}
+
+.create-account-btn:hover {
+    border-color: #ff9900;
+    background: #fffaf0;
+}
+
+/* FOOTER */
+
+.auth-footer-text {
+    margin: 18px 0 0;
+    text-align: center;
+    color: #9ca3af;
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+.auth-footer-text a {
+    color: #ff9900;
+    text-decoration: none;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .auth-page {
+        min-height: calc(100vh - 120px);
+        padding: 25px 12px;
+        align-items: flex-start;
+    }
+
+    .auth-card {
+        width: 100%;
+        padding: 28px 20px;
+        border-radius: 14px;
+    }
+
+    .auth-heading h1 {
+        font-size: 22px;
+    }
+
+    .auth-heading p {
+        font-size: 11px;
+    }
+
+    .auth-form {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .auth-form .auth-submit-btn {
+        grid-column: auto;
+    }
+
+    .form-group label {
+        font-size: 11px;
+    }
+
+    .form-group input {
+        height: 43px;
+        font-size: 12px;
+    }
+
+    .password-hint {
+        font-size: 9px;
+    }
+}

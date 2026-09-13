@@ -1,0 +1,384 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Delivery Address - ShopKart{% endblock %}
+
+{% block content %}
+
+<section class="edit-profile-page">
+
+    <div class="edit-profile-container">
+
+        <a href="{{ url_for('profile') }}" class="edit-back-link">
+            ← Back to My Profile
+        </a>
+
+
+        <div class="edit-profile-header">
+
+            <div class="edit-profile-icon">
+
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+
+                    <path
+                        d="M12 21s7-5.2 7-11a7 7 0 1 0-14 0c0 5.8 7 11 7 11Z"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linejoin="round"
+                    />
+
+                    <circle
+                        cx="12"
+                        cy="10"
+                        r="2.3"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    />
+
+                </svg>
+
+            </div>
+
+
+            <div>
+
+                <p class="section-label">
+                    SHOPKART ACCOUNT
+                </p>
+
+                <h1>
+                    Edit Delivery Address
+                </h1>
+
+                <p>
+                    Update the address used for your orders.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="edit-profile-card">
+
+            <form id="editAddressForm">
+
+
+                <div class="form-section">
+
+                    <div class="form-section-heading">
+
+                        <h2>
+                            Delivery Address
+                        </h2>
+
+                        <p>
+                            Enter your complete delivery details.
+                        </p>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group full-width">
+
+                            <label for="address">
+                                Address
+                            </label>
+
+                            <textarea
+                                id="address"
+                                name="address"
+                                rows="4"
+                                placeholder="Enter your complete address"
+                                required
+                            >{{ user.address or '' }}</textarea>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="city">
+                                City
+                            </label>
+
+                            <input
+                                type="text"
+                                id="city"
+                                name="city"
+                                value="{{ user.city or '' }}"
+                                placeholder="Enter city"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="state">
+                                State
+                            </label>
+
+                            <input
+                                type="text"
+                                id="state"
+                                name="state"
+                                value="{{ user.state or '' }}"
+                                placeholder="Enter state"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="pincode">
+                                Pincode
+                            </label>
+
+                            <input
+                                type="text"
+                                id="pincode"
+                                name="pincode"
+                                value="{{ user.pincode or '' }}"
+                                placeholder="Enter 6-digit pincode"
+                                maxlength="6"
+                                inputmode="numeric"
+                                required
+                            >
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="addressMessage"
+                    class="profile-message">
+                </div>
+
+
+                <div class="edit-profile-actions">
+
+
+                    <a
+                        href="{{ url_for('profile') }}"
+                        class="cancel-profile-btn"
+                    >
+                        Cancel
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        class="save-profile-btn"
+                        id="saveAddressBtn"
+                    >
+                        Save Address
+                    </button>
+
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form =
+        document.getElementById("editAddressForm");
+
+    const message =
+        document.getElementById("addressMessage");
+
+    const saveButton =
+        document.getElementById("saveAddressBtn");
+
+
+    form.addEventListener("submit", function (event) {
+
+        event.preventDefault();
+
+
+        const address =
+            document.getElementById("address")
+            .value.trim();
+
+        const city =
+            document.getElementById("city")
+            .value.trim();
+
+        const state =
+            document.getElementById("state")
+            .value.trim();
+
+        const pincode =
+            document.getElementById("pincode")
+            .value.trim();
+
+
+        if (!address) {
+
+            message.textContent =
+                "Please enter your address.";
+
+            message.className =
+                "profile-message error";
+
+            return;
+        }
+
+
+        if (!city) {
+
+            message.textContent =
+                "Please enter your city.";
+
+            message.className =
+                "profile-message error";
+
+            return;
+        }
+
+
+        if (!state) {
+
+            message.textContent =
+                "Please enter your state.";
+
+            message.className =
+                "profile-message error";
+
+            return;
+        }
+
+
+        if (!/^[0-9]{6}$/.test(pincode)) {
+
+            message.textContent =
+                "Pincode must contain exactly 6 digits.";
+
+            message.className =
+                "profile-message error";
+
+            return;
+        }
+
+
+        saveButton.disabled = true;
+
+        saveButton.textContent =
+            "Saving...";
+
+
+        fetch(
+            "{{ url_for('edit_address') }}",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    address: address,
+                    city: city,
+                    state: state,
+                    pincode: pincode
+
+                })
+
+            }
+        )
+
+
+        .then(function (response) {
+
+            return response.json();
+
+        })
+
+
+        .then(function (data) {
+
+            if (data.success) {
+
+                message.textContent =
+                    "Delivery address updated successfully.";
+
+                message.className =
+                    "profile-message success";
+
+
+                setTimeout(function () {
+
+                    window.location.href =
+                        "{{ url_for('profile') }}";
+
+                }, 800);
+
+
+            } else {
+
+                message.textContent =
+                    data.message ||
+                    "Unable to update address.";
+
+                message.className =
+                    "profile-message error";
+
+                saveButton.disabled = false;
+
+                saveButton.textContent =
+                    "Save Address";
+
+            }
+
+        })
+
+
+        .catch(function (error) {
+
+            console.error(
+                "Address update error:",
+                error
+            );
+
+            message.textContent =
+                "Something went wrong. Please try again.";
+
+            message.className =
+                "profile-message error";
+
+            saveButton.disabled = false;
+
+            saveButton.textContent =
+                "Save Address";
+
+        });
+
+    });
+
+});
+
+</script>
+
+{% endblock %}

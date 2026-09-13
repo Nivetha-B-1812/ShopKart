@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block title %}Shopping Cart - ShopKart{% endblock %}
+
+{% block content %}
+
+<section class="cart-page">
+
+    <div class="cart-header">
+        <p class="section-label">SHOPKART</p>
+        <h1>Your Shopping Cart</h1>
+        <p>Review your selected products before checkout.</p>
+    </div>
+
+    {% if cart_items %}
+
+    <div class="cart-layout">
+
+        <!-- CART ITEMS -->
+        <div class="cart-items">
+
+            {% for item in cart_items %}
+
+            <div class="cart-item">
+
+                <div class="cart-item-image">
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename='images/products/' +
+                            item.product.category.name +
+                            '/' +
+                            item.product.image
+                        ) }}"
+                        alt="{{ item.product.name }}"
+                    >
+                </div>
+
+                <div class="cart-item-info">
+
+                    <h2>{{ item.product.name }}</h2>
+
+                    <p class="cart-category">
+                        {{ item.product.category.name }}
+                    </p>
+
+                   <p class="cart-price" style="color: #198754;">
+    ₹{{ "%.2f"|format(item.product.price) }}
+</p>
+
+                    <div class="cart-quantity">
+
+                        <button type="button"
+                                class="cart-minus"
+                                data-product-id="{{ item.product.id }}">
+                            −
+                        </button>
+
+                        <span>{{ item.quantity }}</span>
+
+                        <button type="button"
+                                class="cart-plus"
+                                data-product-id="{{ item.product.id }}">
+                            +
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="cart-item-total">
+
+    <strong style="color: #198754;">
+        ₹{{ "%.2f"|format(item.product.price * item.quantity) }}
+    </strong>
+
+</div>
+
+                    <button
+                        type="button"
+                        class="remove-cart-btn"
+                        data-product-id="{{ item.product.id }}">
+                        Remove
+                    </button>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- CART SUMMARY -->
+        <aside class="cart-summary">
+
+            <p class="section-label">ORDER SUMMARY</p>
+
+            <h2>Cart Summary</h2>
+
+            <div class="summary-row">
+                <span>Items</span>
+                <span>{{ cart_items|length }}</span>
+            </div>
+
+           <div class="summary-row">
+    <span>Subtotal</span>
+    <span id="cartSubtotal" style="color: #198754; font-weight: 700;">
+        ₹0.00
+    </span>
+</div>
+
+            <div class="summary-row">
+                <span>Delivery</span>
+                <span>FREE</span>
+            </div>
+
+            <div class="summary-divider"></div>
+
+           <div class="summary-total">
+    <span>Total</span>
+    <strong id="cartTotal" style="color: #198754;">
+        ₹0.00
+    </strong>
+</div>
+
+            <a href="{{ url_for('checkout') }}" class="checkout-btn">
+    Proceed to Checkout
+</a>
+
+            <a href="/" class="continue-shopping">
+                Continue Shopping
+            </a>
+
+        </aside>
+
+    </div>
+
+    {% else %}
+
+    <!-- EMPTY CART -->
+
+    <div class="empty-cart">
+
+        <div class="empty-cart-icon">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+                <path
+                    d="M4 6H7L10 21C10.3 22.5 11.6 23.5 13.1 23.5H23.5C24.9 23.5 26.1 22.6 26.6 21.3L29 13H8.5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"/>
+                <circle cx="13" cy="28" r="2" fill="currentColor"/>
+                <circle cx="24" cy="28" r="2" fill="currentColor"/>
+            </svg>
+        </div>
+
+        <h2>Your Cart is Empty</h2>
+
+        <p>
+            Looks like you haven't added anything to your cart yet.
+        </p>
+
+        <a href="/" class="continue-shopping-btn">
+            Start Shopping
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

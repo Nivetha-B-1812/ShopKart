@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Products - ShopKart{% endblock %}
+
+{% block content %}
+
+<section class="admin-products-page">
+
+    <div class="admin-products-container">
+
+        <!-- Header -->
+        <div class="admin-products-header">
+
+            <div>
+                <p class="section-label">SHOPKART ADMIN</p>
+                <h1>Manage Products</h1>
+                <p>
+                    View and manage all ShopKart products.
+                </p>
+            </div>
+
+            <a href="{{ url_for('admin_dashboard') }}"
+               class="admin-products-back-btn">
+
+                <svg viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg">
+
+                    <path d="M19 12H5"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          stroke-linecap="round"/>
+
+                    <path d="M11 18L5 12L11 6"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"/>
+
+                </svg>
+
+                Dashboard
+
+            </a>
+
+        </div>
+
+
+        <!-- Product Count -->
+        <div class="admin-products-summary">
+
+            <div>
+                <span>Total Products</span>
+                <strong>{{ products|length }}</strong>
+            </div>
+
+            <div class="admin-products-summary-icon">
+
+                <svg viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg">
+
+                    <path d="M4 7L12 3L20 7L12 11L4 7Z"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          stroke-linejoin="round"/>
+
+                    <path d="M4 7V17L12 21L20 17V7"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          stroke-linejoin="round"/>
+
+                    <path d="M12 11V21"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.8"/>
+
+                </svg>
+
+            </div>
+
+        </div>
+
+
+        <!-- Products -->
+        <div class="admin-products-card">
+
+            <div class="admin-products-card-header">
+
+                <div>
+                    <p class="section-label">PRODUCT CATALOG</p>
+                    <h2>All Products</h2>
+                </div>
+
+            </div>
+
+
+            {% if products %}
+
+            <div class="admin-products-list">
+
+                {% for product in products %}
+
+                <article class="admin-product-item">
+
+                    <div class="admin-product-image">
+
+                        <img
+                            src="{{ url_for(
+                                'static',
+                                filename='images/products/' +
+                                product.category.name +
+                                '/' +
+                                product.image
+                            ) }}"
+                            alt="{{ product.name }}"
+                        >
+
+                    </div>
+
+
+                    <div class="admin-product-main">
+
+                        <span class="admin-product-category">
+                            {{ product.category.name }}
+                        </span>
+
+                        <h3>
+                            {{ product.name }}
+                        </h3>
+
+                        <p>
+                            {{ product.description }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="admin-product-price">
+
+                        <span>Price</span>
+
+                        <strong>
+                            ₹{{ "%.2f"|format(product.price) }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="admin-product-stock">
+
+                        <span>Stock</span>
+
+                        <strong>
+                            {{ product.stock }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="admin-product-rating">
+
+                        <span>Rating</span>
+
+                        <strong>
+                            {{ product.rating }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="admin-product-actions">
+
+                        <a href="{{ url_for('admin_edit_product', product_id=product.id) }}"
+   class="admin-edit-product-btn">
+
+    Edit
+
+</a>
+
+                <a href="{{ url_for('product_details', product_id=product.id) }}"
+   class="admin-view-product-btn">
+    View
+</a>
+
+                    </div>
+
+                </article>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <div class="admin-products-empty">
+
+                <h3>No Products Found</h3>
+
+                <p>
+                    There are currently no products in ShopKart.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

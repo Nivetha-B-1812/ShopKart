@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Order Confirmed - ShopKart{% endblock %}
+
+{% block content %}
+
+<section class="order-success-page">
+
+    <div class="order-success-card">
+
+        <div class="order-success-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                    d="M20 6L9 17l-5-5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                />
+            </svg>
+        </div>
+
+        <p class="order-success-label">SHOPKART</p>
+
+        <h1>Order Confirmed</h1>
+
+        <p class="order-success-message">
+            Thank you for shopping with ShopKart.
+            Your order has been placed successfully.
+        </p>
+
+        <div class="order-id-box">
+            <span>Order ID</span>
+            <strong>{{ order.order_id }}</strong>
+        </div>
+
+        <div class="order-success-details">
+
+            <div class="success-detail">
+                <span>Customer</span>
+                <strong>{{ order.full_name }}</strong>
+            </div>
+
+            <div class="success-detail">
+                <span>Payment</span>
+                <strong>{{ order.payment_method|upper }}</strong>
+            </div>
+
+            <div class="success-detail">
+                <span>Status</span>
+                <strong class="confirmed-status">
+                    {{ order.status }}
+                </strong>
+            </div>
+
+            <div class="success-detail">
+                <span>Total Amount</span>
+                <strong>₹{{ "%.2f"|format(order.total) }}</strong>
+            </div>
+
+        </div>
+
+        <div class="order-success-actions">
+
+            <a href="{{ url_for('orders') }}" class="view-orders-btn">
+                View My Orders
+            </a>
+
+            <a href="{{ url_for('home') }}" class="continue-shopping-btn">
+                Continue Shopping
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

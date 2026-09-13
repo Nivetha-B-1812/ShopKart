@@ -1,0 +1,389 @@
+{% extends "base.html" %}
+
+{% block title %}Login - ShopKart{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+
+    <div class="auth-card">
+
+        <div class="auth-brand">
+            <a href="{{ url_for('home') }}" class="brand">
+                <div class="brand-icon">
+                    <svg viewBox="0 0 32 32" aria-label="ShopKart Logo">
+                        <path
+                            d="M4 6H7L10 21C10.3 22.5 11.6 23.5 13.1 23.5H23.5C24.9 23.5 26.1 22.6 26.6 21.3L29 13H8.5"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.3"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+                        <circle cx="13" cy="28" r="2" fill="currentColor"/>
+                        <circle cx="24" cy="28" r="2" fill="currentColor"/>
+                    </svg>
+                </div>
+
+                <div class="brand-name">
+                    Shop<span>Kart</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="auth-heading">
+            <h1>Welcome Back</h1>
+            <p>Sign in to continue shopping with ShopKart.</p>
+        </div>
+
+        <form class="auth-form" id="loginForm">
+
+            <div class="form-group">
+                <label for="loginEmail">Email Address</label>
+
+                <input
+                    type="email"
+                    id="loginEmail"
+                    name="email"
+                    placeholder="Enter your email address"
+                    autocomplete="email"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+
+                <div class="password-label-row">
+                    <label for="loginPassword">Password</label>
+
+                    <a href="#" class="forgot-password">
+                        Forgot Password?
+                    </a>
+                </div>
+
+                <div class="password-input-wrapper">
+
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        id="loginPasswordToggle"
+                        aria-label="Show password"
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                            />
+                            <circle
+                                cx="12"
+                                cy="12"
+                                r="2.5"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                            />
+                        </svg>
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="remember-row">
+
+                <label class="remember-option">
+                    <input
+                        type="checkbox"
+                        id="rememberMe"
+                        name="remember"
+                    >
+
+                    <span>Remember me</span>
+                </label>
+
+            </div>
+
+            <button
+                type="submit"
+                class="auth-submit-btn"
+            >
+                Sign In
+            </button>
+
+        </form>
+
+        <div class="auth-divider">
+            <span>New to ShopKart?</span>
+        </div>
+
+        <a
+            href="{{ url_for('signup') }}"
+            class="create-account-btn"
+        >
+            Create Your ShopKart Account
+        </a>
+
+        <p class="auth-footer-text">
+            By continuing, you agree to ShopKart's
+            <a href="#">Terms</a> and
+            <a href="#">Privacy Policy</a>.
+        </p>
+
+    </div>
+
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* =====================================================
+       PASSWORD SHOW / HIDE
+    ===================================================== */
+
+    const passwordInput =
+        document.getElementById("loginPassword");
+
+    const passwordToggle =
+        document.getElementById("loginPasswordToggle");
+
+
+    if (passwordInput && passwordToggle) {
+
+        passwordToggle.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+                if (passwordInput.type === "password") {
+
+                    passwordInput.type = "text";
+
+                    passwordToggle.setAttribute(
+                        "aria-label",
+                        "Hide password"
+                    );
+
+                } else {
+
+                    passwordInput.type = "password";
+
+                    passwordToggle.setAttribute(
+                        "aria-label",
+                        "Show password"
+                    );
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       LOGIN FORM
+    ===================================================== */
+
+    const loginForm =
+        document.getElementById("loginForm");
+
+
+    if (!loginForm) {
+        return;
+    }
+
+
+    loginForm.addEventListener(
+        "submit",
+        function (event) {
+
+            event.preventDefault();
+
+
+            /* GET VALUES */
+
+            const email =
+                document
+                    .getElementById("loginEmail")
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+
+            const password =
+                document
+                    .getElementById("loginPassword")
+                    .value;
+
+
+            const rememberMe =
+                document
+                    .getElementById("rememberMe")
+                    .checked;
+
+
+            /* =================================================
+               BASIC VALIDATION
+            ================================================= */
+
+
+            if (!email || !password) {
+
+                alert(
+                    "Please enter your email and password."
+                );
+
+                return;
+            }
+
+
+            /* EMAIL VALIDATION */
+
+            const emailPattern =
+                /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+            if (!emailPattern.test(email)) {
+
+                alert(
+                    "Please enter a valid email address."
+                );
+
+                return;
+            }
+
+
+            /* =================================================
+               LOGIN BUTTON
+            ================================================= */
+
+            const submitButton =
+                loginForm.querySelector(
+                    ".auth-submit-btn"
+                );
+
+
+            if (submitButton) {
+
+                submitButton.disabled = true;
+
+                submitButton.textContent =
+                    "Signing In...";
+            }
+
+
+            /* =================================================
+               SEND LOGIN REQUEST TO FLASK
+            ================================================= */
+
+            fetch(
+                "{{ url_for('login') }}",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        email: email,
+
+                        password: password,
+
+                        remember:
+                            rememberMe
+
+                    })
+                }
+            )
+
+            .then(function (response) {
+
+                return response.json();
+
+            })
+
+            .then(function (data) {
+
+                if (data.success) {
+
+                    alert(
+                        data.message ||
+                        "Login successful."
+                    );
+
+
+                    /* REDIRECT AFTER LOGIN */
+
+                    window.location.href =
+                        "{{ url_for('account') }}";
+
+
+                } else {
+
+                    alert(
+                        data.message ||
+                        "Invalid email or password."
+                    );
+
+
+                    if (submitButton) {
+
+                        submitButton.disabled =
+                            false;
+
+                        submitButton.textContent =
+                            "Sign In";
+                    }
+
+                }
+
+            })
+
+            .catch(function (error) {
+
+                console.error(
+                    "Login Error:",
+                    error
+                );
+
+
+                alert(
+                    "Something went wrong. Please try again."
+                );
+
+
+                if (submitButton) {
+
+                    submitButton.disabled =
+                        false;
+
+                    submitButton.textContent =
+                        "Sign In";
+                }
+
+            });
+
+        }
+    );
+
+});
+</script>
+
+{% endblock %}

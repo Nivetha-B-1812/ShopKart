@@ -1,0 +1,548 @@
+{% extends "base.html" %}
+
+{% block title %}My Orders - ShopKart{% endblock %}
+
+{% block content %}
+
+<section class="orders-page">
+
+    <div class="orders-container">
+
+        <!-- Page Header -->
+        <div class="orders-header">
+
+            <div>
+                <p class="section-label">SHOPKART</p>
+
+                <h1>My Orders</h1>
+
+                <p class="orders-subtitle">
+                    Track and manage your ShopKart purchases.
+                </p>
+            </div>
+
+            <a href="{{ url_for('home') }}" class="orders-shop-btn">
+                Continue Shopping
+            </a>
+
+        </div>
+
+
+        {% if orders %}
+
+        <!-- Orders List -->
+        <div class="orders-list">
+
+            {% for order in orders %}
+
+            <article class="order-card">
+
+                <!-- Order Top -->
+                <div class="order-card-top">
+
+                    <div class="order-main-info">
+
+                        <div class="order-icon">
+
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                                <path
+                                    d="M6 3h12v18H6z"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                    stroke-linejoin="round"
+                                />
+
+                                <path
+                                    d="M9 7h6M9 11h6M9 15h4"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                    stroke-linecap="round"
+                                />
+
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <span class="order-small-label">
+                                Order ID
+                            </span>
+
+                            <strong class="order-number">
+                                {{ order.order_id }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Order Status -->
+                    <div class="order-status
+                        {% if order.status == 'Confirmed' %}
+                            confirmed
+                        {% elif order.status == 'Packed' %}
+                            packed
+                        {% elif order.status == 'Shipped' %}
+                            shipped
+                        {% elif order.status == 'Delivered' %}
+                            delivered
+                        {% elif order.status == 'Cancelled' %}
+                            cancelled
+                        {% endif %}
+                    ">
+                        {{ order.status }}
+                    </div>
+
+                </div>
+
+
+                <!-- Order Information -->
+                <div class="order-info-row">
+
+                    <div class="order-info-item">
+
+                        <span>Order Date</span>
+
+                        <strong>
+                            {{ order.created_at.strftime('%d %b %Y') }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="order-info-item">
+
+                        <span>Payment</span>
+
+                        <strong>
+                            {{ order.payment_method|upper }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="order-info-item">
+
+                        <span>Total Amount</span>
+
+                        <strong class="order-total">
+                            ₹{{ "%.2f"|format(order.total) }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Products -->
+                <div class="ordered-products">
+
+                    <div class="ordered-products-title">
+                        Products
+                    </div>
+
+
+                    {% if order.items %}
+
+                        {% for item in order.items %}
+
+                        <div class="ordered-product">
+
+                            <div class="ordered-product-icon">
+
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                                    <path
+                                        d="M6 8h12l1 12H5L6 8z"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="1.7"
+                                        stroke-linejoin="round"
+                                    />
+
+                                    <path
+                                        d="M9 8a3 3 0 0 1 6 0"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="1.7"
+                                        stroke-linecap="round"
+                                    />
+
+                                </svg>
+
+                            </div>
+
+
+                            <div class="ordered-product-details">
+
+                                <strong>
+                                    {{ item.product_name }}
+                                </strong>
+
+                                <span>
+                                    ₹{{ "%.2f"|format(item.product_price) }}
+                                    × {{ item.quantity }}
+                                </span>
+
+                            </div>
+
+
+                            <strong class="ordered-product-subtotal">
+                                ₹{{ "%.2f"|format(item.subtotal) }}
+                            </strong>
+
+                        </div>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <p class="no-order-items">
+                            Product details are unavailable.
+                        </p>
+
+                    {% endif %}
+
+                </div>
+                
+                  <!-- Order Tracking -->
+                <div class="order-tracking">
+
+                    <div class="tracking-title">
+                        <span>Order Tracking</span>
+                    </div>
+
+                    <div class="tracking-steps">
+
+                        <!-- Confirmed -->
+                        <div class="tracking-step
+                            {% if order.status in ['Confirmed', 'Packed', 'Shipped', 'Delivered'] %}
+                                completed
+                            {% endif %}">
+
+                            <div class="tracking-circle">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path
+                                        d="M5 12l4 4L19 6"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    />
+                                </svg>
+                            </div>
+
+                            <div class="tracking-content">
+                                <strong>Order Confirmed</strong>
+                                <span>Your order has been confirmed.</span>
+                            </div>
+
+                        </div>
+
+
+                        <!-- Packed -->
+                        <div class="tracking-step
+                            {% if order.status in ['Packed', 'Shipped', 'Delivered'] %}
+                                completed
+                            {% endif %}">
+
+                            <div class="tracking-circle">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path
+                                        d="M4 7h16v13H4z"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="1.8"
+                                    />
+                                    <path
+                                        d="M8 7V4h8v3"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="1.8"
+                                    />
+                                </svg>
+                            </div>
+
+                            <div class="tracking-content">
+                                <strong>Order Packed</strong>
+                                <span>Your items have been packed.</span>
+                            </div>
+
+                        </div>
+
+
+                        <!-- Shipped -->
+                        <div class="tracking-step
+                            {% if order.status in ['Shipped', 'Delivered'] %}
+                                completed
+                            {% endif %}">
+
+                            <div class="tracking-circle">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path
+                                        d="M4 6h11v11H4zM15 10h3l3 3v4h-3"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="1.8"
+                                        stroke-linejoin="round"
+                                    />
+                                    <circle
+                                        cx="8"
+                                        cy="19"
+                                        r="1.5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="1.8"
+                                    />
+                                    <circle
+                                        cx="18"
+                                        cy="19"
+                                        r="1.5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="1.8"
+                                    />
+                                </svg>
+                            </div>
+
+                            <div class="tracking-content">
+                                <strong>Order Shipped</strong>
+                                <span>Your order is on the way.</span>
+                            </div>
+
+                        </div>
+
+
+                        <!-- Delivered -->
+                        <div class="tracking-step
+                            {% if order.status == 'Delivered' %}
+                                completed
+                            {% endif %}">
+
+                            <div class="tracking-circle">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path
+                                        d="M5 12l4 4L19 6"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    />
+                                </svg>
+                            </div>
+
+                            <div class="tracking-content">
+                                <strong>Delivered</strong>
+                                <span>Your order has been delivered.</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Delivery -->
+                <div class="order-delivery">
+
+                    <div class="delivery-icon">
+
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                            <path
+                                d="M4 6h11v11H4zM15 10h3l3 3v4h-6z"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.7"
+                                stroke-linejoin="round"
+                            />
+
+                            <circle
+                                cx="8"
+                                cy="19"
+                                r="1.5"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.7"
+                            />
+
+                            <circle
+                                cx="18"
+                                cy="19"
+                                r="1.5"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.7"
+                            />
+
+                        </svg>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Delivery Address
+                        </span>
+
+                        <strong>
+                            {{ order.address }},
+                            {{ order.city }},
+                            {{ order.state }}
+                            - {{ order.pincode }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+            {% endfor %}
+
+        </div>
+
+
+        {% else %}
+
+        <!-- EMPTY ORDERS STATE -->
+        <div class="empty-orders">
+
+            <!-- Professional Empty Orders Illustration -->
+            <div class="empty-orders-icon">
+
+                <svg
+                    viewBox="0 0 180 180"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                >
+
+                    <!-- Soft Background -->
+                    <circle
+                        cx="90"
+                        cy="90"
+                        r="76"
+                        fill="#fff7e8"
+                    />
+
+                    <!-- Shopping Bag -->
+                    <path
+                        d="M55 67
+                           C55 61 60 57 66 57
+                           H114
+                           C120 57 125 61 125 67
+                           L131 124
+                           C132 130 127 135 121 135
+                           H59
+                           C53 135 48 130 49 124
+                           Z"
+                        fill="#ffffff"
+                        stroke="#ff9900"
+                        stroke-width="4"
+                        stroke-linejoin="round"
+                    />
+
+                    <!-- Bag Handle -->
+                    <path
+                        d="M70 67
+                           V54
+                           C70 43 78 36 90 36
+                           C102 36 110 43 110 54
+                           V67"
+                        fill="none"
+                        stroke="#ff9900"
+                        stroke-width="4"
+                        stroke-linecap="round"
+                    />
+
+                    <!-- Shopping Bag Lines -->
+                    <path
+                        d="M68 86H112"
+                        fill="none"
+                        stroke="#ffd27a"
+                        stroke-width="4"
+                        stroke-linecap="round"
+                    />
+
+                    <path
+                        d="M68 101H103"
+                        fill="none"
+                        stroke="#ffd27a"
+                        stroke-width="4"
+                        stroke-linecap="round"
+                    />
+
+                    <!-- Small Cart Circle -->
+                    <circle
+                        cx="125"
+                        cy="126"
+                        r="25"
+                        fill="#ff9900"
+                    />
+
+                    <!-- Cart -->
+                    <path
+                        d="M113 117H118L121 130H133"
+                        fill="none"
+                        stroke="#ffffff"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+
+                    <circle
+                        cx="123"
+                        cy="135"
+                        r="2.8"
+                        fill="#ffffff"
+                    />
+
+                    <circle
+                        cx="132"
+                        cy="135"
+                        r="2.8"
+                        fill="#ffffff"
+                    />
+
+                </svg>
+
+            </div>
+
+
+            <!-- Empty Orders Text -->
+            <h2>
+                No Orders Yet
+            </h2>
+
+            <p>
+                You haven't placed any orders yet.
+                Start shopping and your orders will appear here.
+            </p>
+
+
+            <!-- Start Shopping Button -->
+            <a
+                href="{{ url_for('home') }}"
+                class="start-shopping-btn"
+            >
+                Start Shopping
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

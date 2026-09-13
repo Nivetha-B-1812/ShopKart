@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us - ShopKart{% endblock %}
+
+{% block content %}
+
+<section class="contact-page">
+
+    <!-- PAGE HEADER -->
+    <div class="contact-header">
+
+        <p class="section-label">SHOPKART SUPPORT</p>
+
+        <h1>Contact Us</h1>
+
+        <p>
+            We're here to help. Get in touch with the ShopKart team
+            for assistance, questions or feedback.
+        </p>
+
+    </div>
+
+
+    <!-- CONTACT CARDS -->
+    <div class="contact-grid">
+
+        <!-- CUSTOMER SUPPORT -->
+<div class="contact-card">
+
+    <div class="contact-icon">
+
+        <svg viewBox="0 0 24 24"
+             fill="none"
+             aria-hidden="true">
+
+            <rect
+                x="3"
+                y="5"
+                width="18"
+                height="14"
+                rx="2"
+                stroke="currentColor"
+                stroke-width="1.8"
+            />
+
+            <path
+                d="M4 7L12 13L20 7"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            />
+
+        </svg>
+
+    </div>
+
+    <h2>Customer Support</h2>
+
+    <p>
+        Need help with your ShopKart experience?
+        Our support team is ready to assist you.
+    </p>
+
+    <a href="mailto:{{ config['SHOPKART_CONTACT_EMAIL'] }}">
+        shopkart.supports@gmail.com
+    </a>
+
+</div>
+
+
+<!-- EMAIL -->
+<div class="contact-card">
+
+    <div class="contact-icon">
+
+        <svg viewBox="0 0 24 24"
+             fill="none"
+             aria-hidden="true">
+
+            <rect
+                x="3"
+                y="5"
+                width="18"
+                height="14"
+                rx="2"
+                stroke="currentColor"
+                stroke-width="1.8"
+            />
+
+            <path
+                d="M4 7L12 13L20 7"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            />
+
+        </svg>
+
+    </div>
+
+    <h2>Email Us</h2>
+
+    <p>
+        Send us your questions, feedback or
+        assistance requests through email.
+    </p>
+
+    <a href="mailto:{{ config['SHOPKART_HELP_EMAIL'] }}">
+        shopkart.hepls@gmail.com
+    </a>
+
+</div>
+
+
+        <!-- BUSINESS HOURS -->
+        <div class="contact-card">
+
+            <div class="contact-icon">
+
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     aria-hidden="true">
+
+                    <circle
+                        cx="12"
+                        cy="12"
+                        r="9"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    />
+
+                    <path
+                        d="M12 7V12L15 14"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+
+                </svg>
+
+            </div>
+
+            <h2>Support Hours</h2>
+
+            <p>
+                Our customer support team is available
+                to help you with your shopping experience.
+            </p>
+
+            <strong>
+                Monday - Saturday
+            </strong>
+
+            <span>
+                9:00 AM - 6:00 PM
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- CONTACT INFORMATION -->
+    <div class="contact-info-card">
+
+        <div>
+
+            <p class="section-label">
+                SHOPKART
+            </p>
+
+            <h2>
+                We're happy to hear from you.
+            </h2>
+
+            <p>
+                Whether you have a question about an order,
+                product or your ShopKart account, feel free
+                to reach out to us.
+            </p>
+
+        </div>
+
+        <a href="{{ url_for('home') }}"
+           class="contact-home-btn">
+
+            Continue Shopping
+
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}

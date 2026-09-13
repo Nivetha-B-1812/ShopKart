@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - ShopKart{% endblock %}
+
+{% block content %}
+
+<section class="admin-dashboard-page">
+
+    <div class="admin-dashboard-container">
+
+        <!-- Header -->
+        <div class="admin-dashboard-header">
+
+            <div>
+                <p class="section-label">SHOPKART ADMIN</p>
+
+                <h1>Dashboard</h1>
+
+                <p>
+                    Monitor orders, sales and delivery status.
+                </p>
+            </div>
+
+            <a href="{{ url_for('admin_orders') }}"
+               class="admin-dashboard-orders-btn">
+                Manage Orders
+            </a>
+            <a href="{{ url_for('admin_products') }}"
+   class="admin-dashboard-products-btn">
+
+    <svg viewBox="0 0 24 24"
+         xmlns="http://www.w3.org/2000/svg">
+
+        <path d="M4 7L12 3L20 7L12 11L4 7Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linejoin="round"/>
+
+        <path d="M4 7V17L12 21L20 17V7"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linejoin="round"/>
+
+        <path d="M12 11V21"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"/>
+
+    </svg>
+
+    Manage Products
+
+</a>
+
+        </div>
+
+
+        <!-- Statistics -->
+        <div class="admin-stats-grid">
+
+            <div class="admin-stat-card">
+                <span>Total Orders</span>
+                <strong>{{ total_orders }}</strong>
+            </div>
+
+            <div class="admin-stat-card confirmed-stat">
+                <span>Confirmed</span>
+                <strong>{{ confirmed_orders }}</strong>
+            </div>
+
+            <div class="admin-stat-card packed-stat">
+                <span>Packed</span>
+                <strong>{{ packed_orders }}</strong>
+            </div>
+
+            <div class="admin-stat-card shipped-stat">
+                <span>Shipped</span>
+                <strong>{{ shipped_orders }}</strong>
+            </div>
+
+            <div class="admin-stat-card delivered-stat">
+                <span>Delivered</span>
+                <strong>{{ delivered_orders }}</strong>
+            </div>
+
+            <div class="admin-stat-card cancelled-stat">
+                <span>Cancelled</span>
+                <strong>{{ cancelled_orders }}</strong>
+            </div>
+
+        </div>
+
+
+        <!-- Sales -->
+        <div class="admin-sales-card">
+
+            <div>
+                <span>Total Sales</span>
+
+                <h2>
+                    ₹{{ "%.2f"|format(total_sales) }}
+                </h2>
+
+                <p>
+                    Total value of all placed orders.
+                </p>
+            </div>
+
+            <div class="admin-sales-icon">
+
+                <svg viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg">
+
+                    <path d="M4 19V5"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          stroke-linecap="round"/>
+
+                    <path d="M4 19H20"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          stroke-linecap="round"/>
+
+                    <path d="M7 15L11 11L14 13L19 7"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"/>
+
+                </svg>
+
+            </div>
+
+        </div>
+
+
+        <!-- Recent Orders -->
+        <div class="admin-recent-card">
+
+            <div class="admin-recent-header">
+
+                <div>
+                    <p class="section-label">RECENT ACTIVITY</p>
+                    <h2>Recent Orders</h2>
+                </div>
+
+                <a href="{{ url_for('admin_orders') }}">
+                    View All
+                </a>
+
+            </div>
+
+
+            {% if recent_orders %}
+
+            <div class="admin-recent-list">
+
+                {% for order in recent_orders %}
+
+                <div class="admin-recent-order">
+
+                    <div class="admin-recent-order-main">
+
+                        <strong>
+                            {{ order.order_id }}
+                        </strong>
+
+                        <span>
+                            {{ order.full_name }}
+                        </span>
+
+                    </div>
+
+                    <div class="admin-recent-order-middle">
+
+                        <span>
+                            {{ order.created_at.strftime('%d %b %Y') }}
+                        </span>
+
+                        <strong>
+                            ₹{{ "%.2f"|format(order.total) }}
+                        </strong>
+
+                    </div>
+
+                    <span class="admin-current-status
+                        {% if order.status == 'Confirmed' %}confirmed
+                        {% elif order.status == 'Packed' %}packed
+                        {% elif order.status == 'Shipped' %}shipped
+                        {% elif order.status == 'Delivered' %}delivered
+                        {% elif order.status == 'Cancelled' %}cancelled
+                        {% endif %}">
+                        {{ order.status }}
+                    </span>
+
+                    <a href="{{ url_for('admin_order_details', order_id=order.id) }}"
+                       class="admin-recent-view">
+                        View
+                    </a>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <div class="admin-dashboard-empty">
+                <h3>No Orders Yet</h3>
+                <p>
+                    Customer orders will appear here.
+                </p>
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

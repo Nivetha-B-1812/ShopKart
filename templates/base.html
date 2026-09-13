@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}ShopKart{% endblock %}</title>
+
+    <meta name="description"
+          content="ShopKart - Shop More, Worry Less.">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="site-header">
+
+        <div class="header-container">
+
+            <!-- SHOPKART LOGO -->
+            <a href="/" class="brand">
+
+                <div class="brand-icon">
+
+                    <svg viewBox="0 0 32 32"
+                         aria-label="ShopKart Logo"
+                         xmlns="http://www.w3.org/2000/svg">
+
+                        <path d="M4 6H7L10 21C10.3 22.5 11.6 23.5 13.1 23.5H23.5C24.9 23.5 26.1 22.6 26.6 21.3L29 13H8.5"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2.3"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+
+                        <circle cx="13"
+                                cy="28"
+                                r="2"
+                                fill="currentColor"/>
+
+                        <circle cx="24"
+                                cy="28"
+                                r="2"
+                                fill="currentColor"/>
+
+                    </svg>
+
+                </div>
+
+                <div class="brand-name">
+                    Shop<span>Kart</span>
+                </div>
+
+            </a>
+
+
+            <!-- SEARCH -->
+            <form class="search-box"
+                  action="{{ url_for('home') }}"
+                  method="GET">
+
+                <input
+                    type="search"
+                    name="q"
+                    placeholder="Search products, categories..."
+                    autocomplete="off"
+                    aria-label="Search ShopKart">
+
+                <button type="submit"
+                        aria-label="Search">
+
+                    <svg viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg">
+
+                        <circle cx="11"
+                                cy="11"
+                                r="7"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"/>
+
+                        <path d="M16.5 16.5L21 21"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"/>
+
+                    </svg>
+
+                </button>
+
+            </form>
+
+
+            <!-- HEADER ACTIONS -->
+            <nav class="header-actions"
+                 aria-label="Main navigation">
+
+                <!-- ACCOUNT -->
+                <a href="{{ url_for('account') }}"
+                   class="header-action">
+
+                    <svg viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg">
+
+                        <circle cx="12"
+                                cy="8"
+                                r="4"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.8"/>
+
+                        <path d="M4 21C4.8 16.8 7.4 14.5 12 14.5C16.6 14.5 19.2 16.8 20 21"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="1.8"
+                              stroke-linecap="round"/>
+
+                    </svg>
+
+                    <span>My Account</span>
+
+                </a>
+
+
+               <!-- ORDERS -->
+<a href="{{ url_for('orders') }}"
+   class="header-action">
+
+                    <svg viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg">
+
+                        <path d="M6 3H18V21H6Z"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="1.8"
+                              stroke-linejoin="round"/>
+
+                        <path d="M9 7H15M9 11H15M9 15H13"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="1.8"
+                              stroke-linecap="round"/>
+
+                    </svg>
+
+                    <span>My Orders</span>
+
+                </a>
+
+
+{% if is_admin() %}
+<a href="{{ url_for('admin_dashboard') }}"
+   class="header-action admin-header-action">
+
+<svg viewBox="0 0 24 24"
+     xmlns="http://www.w3.org/2000/svg"
+     aria-hidden="true">
+
+    <path d="M5 19L10.2 5H13.8L19 19"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+
+    <path d="M7.2 14H16.8"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"/>
+
+</svg>
+
+    <span>Manage Orders</span>
+
+</a>
+{% endif %}
+
+                <!-- CART -->
+                <a href="{{ url_for('cart') }}"
+   class="cart-action"
+   aria-label="Shopping Cart">
+
+                    <div class="cart-icon-wrapper">
+
+                        <svg viewBox="0 0 32 32"
+                             xmlns="http://www.w3.org/2000/svg">
+
+                            <path d="M4 6H7L10 21C10.3 22.5 11.6 23.5 13.1 23.5H23.5C24.9 23.5 26.1 22.6 26.6 21.3L29 13H8.5"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2.2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"/>
+
+                            <circle cx="13"
+                                    cy="28"
+                                    r="2"
+                                    fill="currentColor"/>
+
+                            <circle cx="24"
+                                    cy="28"
+                                    r="2"
+                                    fill="currentColor"/>
+
+                        </svg>
+
+                       <span class="cart-count">
+    {{ session.get("cart", {}).values() | sum }}
+</span>
+
+                    </div>
+
+                    <span>Cart</span>
+
+                </a>
+
+            </nav>
+
+        </div>
+
+        </header>
+
+
+<!-- NAVIGATION BAR -->
+<nav class="category-nav" aria-label="Shop categories">
+
+    <div class="category-nav-container">
+
+        <a href="{{ url_for('home') }}"
+           class="nav-link {% if request.path == '/' %}active{% endif %}">
+            Home
+        </a>
+
+        <a href="{{ url_for('electronics') }}"
+           class="nav-link {% if request.path == '/electronics' %}active{% endif %}">
+            Electronics
+        </a>
+
+        <a href="{{ url_for('fashion') }}"
+           class="nav-link {% if request.path == '/fashion' %}active{% endif %}">
+            Fashion
+        </a>
+
+        <a href="{{ url_for('home_kitchen') }}"
+           class="nav-link {% if request.path == '/home-kitchen' %}active{% endif %}">
+            Home & Kitchen
+        </a>
+
+        <a href="{{ url_for('books') }}"
+           class="nav-link {% if request.path == '/books' %}active{% endif %}">
+            Books
+        </a>
+
+        <a href="{{ url_for('gaming') }}"
+           class="nav-link {% if request.path == '/gaming' %}active{% endif %}">
+            Gaming
+        </a>
+
+        <a href="{{ url_for('fruits') }}"
+           class="nav-link {% if request.path == '/fruits' %}active{% endif %}">
+            Fruits
+        </a>
+
+        <a href="{{ url_for('vegetables') }}"
+           class="nav-link {% if request.path == '/vegetables' %}active{% endif %}">
+            Vegetables
+        </a>
+
+        <a href="{{ url_for('grocery') }}"
+           class="nav-link {% if request.path == '/grocery' %}active{% endif %}">
+            Grocery
+        </a>
+
+    </div>
+
+</nav>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        {% block content %}
+
+        {% endblock %}
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+
+        <div class="footer-container">
+
+            <div class="footer-brand">
+
+                <div class="footer-logo">
+
+                    <svg viewBox="0 0 32 32"
+                         xmlns="http://www.w3.org/2000/svg">
+
+                        <path d="M4 6H7L10 21C10.3 22.5 11.6 23.5 13.1 23.5H23.5C24.9 23.5 26.1 22.6 26.6 21.3L29 13H8.5"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2.3"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+
+                        <circle cx="13"
+                                cy="28"
+                                r="2"
+                                fill="currentColor"/>
+
+                        <circle cx="24"
+                                cy="28"
+                                r="2"
+                                fill="currentColor"/>
+
+                    </svg>
+
+                </div>
+
+                <div>
+                    <h3>ShopKart</h3>
+                    <p>Shop More, Worry Less.</p>
+                </div>
+
+            </div>
+
+
+            <div class="footer-section">
+
+                <h4>Shop</h4>
+
+                <a href="#">Electronics</a>
+                <a href="#">Fashion</a>
+                <a href="#">Home & Kitchen</a>
+                <a href="#">Books</a>
+
+            </div>
+
+
+            <div class="footer-section">
+
+                <h4>Explore</h4>
+
+                <a href="#">Gaming</a>
+                <a href="#">Fruits</a>
+                <a href="#">Vegetables</a>
+                <a href="#">Grocery</a>
+
+            </div>
+
+
+            <div class="footer-section">
+    <h4>Customer Service</h4>
+
+    <a href="{{ url_for('account') }}">
+        My Account
+    </a>
+
+    <a href="{{ url_for('orders') }}">
+        My Orders
+    </a>
+
+    <a href="{{ url_for('contact') }}">
+    Contact Us
+</a>
+
+    <a href="{{ url_for('help_center') }}">Help Center</a>
+</div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 ShopKart. All rights reserved.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+    {% block extra_js %}{% endblock %}
+
+</body>
+</html>

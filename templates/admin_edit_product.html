@@ -1,0 +1,347 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Product - ShopKart{% endblock %}
+
+{% block content %}
+
+<section class="admin-edit-product-page">
+
+    <div class="admin-edit-product-container">
+
+        <div class="admin-edit-product-header">
+
+            <div>
+                <p class="section-label">SHOPKART ADMIN</p>
+                <h1>Edit Product</h1>
+                <p>Update the product information below.</p>
+            </div>
+
+            <a href="{{ url_for('admin_products') }}"
+               class="admin-edit-back-btn">
+
+                <svg viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg">
+
+                    <path d="M19 12H5"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          stroke-linecap="round"/>
+
+                    <path d="M11 18L5 12L11 6"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"/>
+
+                </svg>
+
+                Back to Products
+
+            </a>
+
+        </div>
+
+
+        <div class="admin-edit-product-card">
+
+            <form id="adminEditProductForm">
+
+                <!-- Product Preview -->
+
+                <div class="admin-edit-product-preview">
+
+                    <div class="admin-edit-product-image">
+
+                        <img
+                            src="{{ url_for(
+                                'static',
+                                filename='images/products/' +
+                                product.category.name +
+                                '/' +
+                                product.image
+                            ) }}"
+                            alt="{{ product.name }}"
+                        >
+
+                    </div>
+
+                    <div>
+
+                        <span>PRODUCT ID</span>
+
+                        <strong>#{{ product.id }}</strong>
+
+                        <p>
+                            Current product: {{ product.name }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Product Information -->
+
+                <div class="admin-edit-section">
+
+                    <h2>Product Information</h2>
+
+                    <div class="admin-edit-grid">
+
+                        <div class="admin-edit-field">
+
+                            <label for="productName">
+                                Product Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="productName"
+                                value="{{ product.name }}"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="admin-edit-field">
+
+                            <label for="productCategory">
+                                Category
+                            </label>
+
+                            <select
+                                id="productCategory"
+                                required
+                            >
+
+                                {% for category in categories %}
+
+                                <option
+                                    value="{{ category.id }}"
+                                    {% if category.id == product.category_id %}
+                                    selected
+                                    {% endif %}
+                                >
+                                    {{ category.name }}
+                                </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="admin-edit-field admin-edit-full">
+
+                            <label for="productDescription">
+                                Description
+                            </label>
+
+                            <textarea
+                                id="productDescription"
+                                rows="5"
+                                required
+                            >{{ product.description }}</textarea>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Price / Stock / Rating -->
+
+                <div class="admin-edit-section">
+
+                    <h2>Pricing & Inventory</h2>
+
+                    <div class="admin-edit-grid">
+
+                        <div class="admin-edit-field">
+
+                            <label for="productPrice">
+                                Price
+                            </label>
+
+                            <input
+                                type="number"
+                                id="productPrice"
+                                min="0"
+                                step="0.01"
+                                value="{{ product.price }}"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="admin-edit-field">
+
+                            <label for="productStock">
+                                Stock
+                            </label>
+
+                            <input
+                                type="number"
+                                id="productStock"
+                                min="0"
+                                step="1"
+                                value="{{ product.stock }}"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="admin-edit-field">
+
+                            <label for="productRating">
+                                Rating
+                            </label>
+
+                            <input
+                                type="number"
+                                id="productRating"
+                                min="0"
+                                max="5"
+                                step="0.1"
+                                value="{{ product.rating }}"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Actions -->
+
+                <div class="admin-edit-actions">
+
+                    <a href="{{ url_for('admin_products') }}"
+                       class="admin-edit-cancel-btn">
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="admin-edit-save-btn"
+                    >
+                        Save Changes
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form = document.getElementById(
+        "adminEditProductForm"
+    );
+
+    if (!form) {
+        return;
+    }
+
+    form.addEventListener("submit", function (event) {
+
+        event.preventDefault();
+
+        const productId = {{ product.id }};
+
+        const data = {
+            name: document.getElementById("productName").value.trim(),
+
+            description:
+                document.getElementById("productDescription")
+                .value
+                .trim(),
+
+            category_id:
+                document.getElementById("productCategory").value,
+
+            price:
+                document.getElementById("productPrice").value,
+
+            stock:
+                document.getElementById("productStock").value,
+
+            rating:
+                document.getElementById("productRating").value
+        };
+
+
+        fetch(
+            "/admin/product/" + productId + "/edit",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(data)
+            }
+        )
+
+        .then(function (response) {
+            return response.json();
+        })
+
+        .then(function (result) {
+
+            if (result.success) {
+
+                alert(result.message);
+
+                window.location.href =
+                    "{{ url_for('admin_products') }}";
+
+            } else {
+
+                alert(
+                    result.message ||
+                    "Unable to update product."
+                );
+
+            }
+
+        })
+
+        .catch(function (error) {
+
+            console.error(
+                "Update Product Error:",
+                error
+            );
+
+            alert(
+                "Something went wrong. Please try again."
+            );
+
+        });
+
+    });
+
+});
+
+</script>
+
+{% endblock %}

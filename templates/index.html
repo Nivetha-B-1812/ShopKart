@@ -1,0 +1,765 @@
+{% extends "base.html" %}
+
+{% block title %}ShopKart - Shop More, Worry Less.{% endblock %}
+
+{% block content %}
+
+{% if search_query %}
+
+<!-- =====================================================
+     SEARCH RESULTS
+===================================================== -->
+
+<section class="search-results-section">
+
+    <div class="search-results-header">
+
+        <p class="section-label">SEARCH RESULTS</p>
+
+        <h1>Results for "{{ search_query }}"</h1>
+
+    </div>
+
+    {% if products %}
+
+    <div class="product-grid">
+
+        {% for product in products %}
+
+        <article class="product-card">
+
+            <div class="product-image">
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='images/products/' +
+                        product.category.name +
+                        '/' +
+                        product.image
+                    ) }}"
+                    alt="{{ product.name }}"
+                >
+
+            </div>
+
+            <div class="product-info">
+
+                <h3>{{ product.name }}</h3>
+
+                <p class="product-category">
+                    {{ product.category.name }}
+                </p>
+
+                <div class="product-rating">★ {{ product.rating }}</div>
+
+                <p class="product-price">
+                    ₹{{ "%.2f"|format(product.price) }}
+                </p>
+
+                 <p class="product-description">
+    {{ product.description }}
+</p>
+
+{% if product.category.name in ["Fruits", "Vegetables", "Grocery"] %}
+    <p class="product-quantity">Quantity: 1 kg</p>
+{% endif %}
+
+                <div class="product-actions">
+
+                    <button
+                        type="button"
+                        class="add-cart-btn category-add-cart"
+                        data-product-id="{{ product.id }}"
+                    >
+                        Add to Cart
+                    </button>
+
+                    <a
+                        href="{{ url_for(
+                            'product_details',
+                            product_id=product.id
+                        ) }}"
+                        class="view-product-btn"
+                    >
+                        View Details
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="no-search-results">
+
+        <h3>No products found</h3>
+
+        <p>
+            We couldn't find anything matching
+            "{{ search_query }}".
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+
+{% else %}
+
+<!-- =====================================================
+     WELCOME SECTION
+===================================================== -->
+
+<section class="welcome-section">
+
+    <p class="section-label">
+        WELCOME TO SHOPKART
+    </p>
+
+    <h1>
+        Shop More, <span>Worry Less.</span>
+    </h1>
+
+    <p>
+        Discover quality products made for your everyday needs.
+    </p>
+
+</section>
+
+<!-- =====================================================
+     SHOPKART BANNER SLIDER
+===================================================== -->
+
+<section class="hero-banner">
+
+    <div class="banner-slider">
+
+        <!-- BANNER 1 -->
+
+        <div class="banner-slide active">
+
+            <img
+                src="{{ url_for(
+                    'static',
+                    filename='images/banners/Banners/banner-1.jpg'
+                ) }}"
+                alt="ShopKart Banner 1"
+            >
+
+        </div>
+
+
+        <!-- BANNER 2 -->
+
+        <div class="banner-slide">
+
+            <img
+                src="{{ url_for(
+                    'static',
+                    filename='images/banners/Banners/banner-2.jpg'
+                ) }}"
+                alt="ShopKart Banner 2"
+            >
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     CATEGORY SECTION
+===================================================== -->
+
+<section class="categories-section" id="categories">
+
+    <div class="section-heading">
+
+        <p class="section-label">
+            EXPLORE SHOPKART
+        </p>
+
+        <h2>
+            Shop by Category
+        </h2>
+
+        <p>
+            Explore our carefully selected categories
+            and find products made for you.
+        </p>
+
+    </div>
+
+
+    <div class="category-grid">
+
+
+        <!-- ELECTRONICS -->
+
+        <article class="category-card">
+
+            <div class="category-image">
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='images/categories/catagories/electronics.jpg'
+                    ) }}"
+                    alt="Electronics"
+                >
+
+                <div class="category-overlay"></div>
+
+            </div>
+
+            <div class="category-content">
+
+                <span class="category-number">
+                    01
+                </span>
+
+                <h3>
+                    Electronics
+                </h3>
+
+                <p>
+                    Smart devices and latest technology
+                    for your everyday life.
+                </p>
+
+                <a
+                    href="{{ url_for('electronics') }}"
+                    class="category-link"
+                >
+                    <span>Shop Now</span>
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <!-- FASHION -->
+
+        <article class="category-card">
+
+            <div class="category-image">
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='images/categories/catagories/fashion.jpg'
+                    ) }}"
+                    alt="Fashion"
+                >
+
+                <div class="category-overlay"></div>
+
+            </div>
+
+            <div class="category-content">
+
+                <span class="category-number">
+                    02
+                </span>
+
+                <h3>
+                    Fashion
+                </h3>
+
+                <p>
+                    Trendy styles and timeless essentials
+                    for every occasion.
+                </p>
+
+                <a
+                    href="{{ url_for('fashion') }}"
+                    class="category-link"
+                >
+                    <span>Shop Now</span>
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <!-- HOME & KITCHEN -->
+
+        <article class="category-card">
+
+            <div class="category-image">
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='images/categories/catagories/home-kitchen.jpg'
+                    ) }}"
+                    alt="Home and Kitchen"
+                >
+
+                <div class="category-overlay"></div>
+
+            </div>
+
+            <div class="category-content">
+
+                <span class="category-number">
+                    03
+                </span>
+
+                <h3>
+                    Home &amp; Kitchen
+                </h3>
+
+                <p>
+                    Practical essentials designed to make
+                    your home better.
+                </p>
+
+                <a
+                    href="{{ url_for('home_kitchen') }}"
+                    class="category-link"
+                >
+                    <span>Shop Now</span>
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <!-- BOOKS -->
+
+        <article class="category-card">
+
+            <div class="category-image">
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='images/categories/catagories/books.jpg'
+                    ) }}"
+                    alt="Books"
+                >
+
+                <div class="category-overlay"></div>
+
+            </div>
+
+            <div class="category-content">
+
+                <span class="category-number">
+                    04
+                </span>
+
+                <h3>
+                    Books
+                </h3>
+
+                <p>
+                    Knowledge, stories and inspiration
+                    for every curious mind.
+                </p>
+
+                <a
+                    href="{{ url_for('books') }}"
+                    class="category-link"
+                >
+                    <span>Shop Now</span>
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <!-- GAMING -->
+
+        <article class="category-card">
+
+            <div class="category-image">
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='images/categories/catagories/gaming.jpg'
+                    ) }}"
+                    alt="Gaming"
+                >
+
+                <div class="category-overlay"></div>
+
+            </div>
+
+            <div class="category-content">
+
+                <span class="category-number">
+                    05
+                </span>
+
+                <h3>
+                    Gaming
+                </h3>
+
+                <p>
+                    Powerful gaming gear for your
+                    next level experience.
+                </p>
+
+                <a
+                    href="{{ url_for('gaming') }}"
+                    class="category-link"
+                >
+                    <span>Shop Now</span>
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <!-- FRUITS -->
+
+        <article class="category-card">
+
+            <div class="category-image">
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='images/categories/catagories/fruits.jpg'
+                    ) }}"
+                    alt="Fruits"
+                >
+
+                <div class="category-overlay"></div>
+
+            </div>
+
+            <div class="category-content">
+
+                <span class="category-number">
+                    06
+                </span>
+
+                <h3>
+                    Fruits
+                </h3>
+
+                <p>
+                    Fresh and healthy fruits selected
+                    for everyday goodness.
+                </p>
+
+                <a
+                    href="{{ url_for('fruits') }}"
+                    class="category-link"
+                >
+                    <span>Shop Now</span>
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <!-- VEGETABLES -->
+
+        <article class="category-card">
+
+            <div class="category-image">
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='images/categories/catagories/vegetables.jpg'
+                    ) }}"
+                    alt="Vegetables"
+                >
+
+                <div class="category-overlay"></div>
+
+            </div>
+
+            <div class="category-content">
+
+                <span class="category-number">
+                    07
+                </span>
+
+                <h3>
+                    Vegetables
+                </h3>
+
+                <p>
+                    Fresh vegetables for healthy
+                    everyday cooking.
+                </p>
+
+                <a
+                    href="{{ url_for('vegetables') }}"
+                    class="category-link"
+                >
+                    <span>Shop Now</span>
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <!-- GROCERY -->
+
+        <article class="category-card">
+
+            <div class="category-image">
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='images/categories/catagories/grocery.jpg'
+                    ) }}"
+                    alt="Grocery"
+                >
+
+                <div class="category-overlay"></div>
+
+            </div>
+
+            <div class="category-content">
+
+                <span class="category-number">
+                    08
+                </span>
+
+                <h3>
+                    Grocery
+                </h3>
+
+                <p>
+                    Everyday essentials at reliable
+                    and affordable prices.
+                </p>
+
+                <a
+                    href="{{ url_for('grocery') }}"
+                    class="category-link"
+                >
+                    <span>Shop Now</span>
+                </a>
+
+            </div>
+
+        </article>
+
+
+    </div>
+
+</section>
+
+<!-- =====================================================
+     FEATURED PRODUCTS
+===================================================== -->
+
+<section class="featured-products-section" id="featured-products">
+
+    <div class="featured-header">
+
+        <div>
+            <p class="section-label">
+                FEATURED PRODUCTS
+            </p>
+
+            <h2>
+                Popular Picks for You
+            </h2>
+
+            <p>
+                Discover some of our most popular products
+                selected for you.
+            </p>
+        </div>
+
+        <a
+            href="{{ url_for('electronics') }}"
+            class="featured-view-all"
+        >
+            View All
+        </a>
+
+    </div>
+
+
+    <div class="featured-product-grid">
+
+        {% for product in featured_products %}
+
+        <article class="featured-product-card">
+
+            <a
+                href="{{ url_for(
+                    'product_details',
+                    product_id=product.id
+                ) }}"
+                class="featured-product-image"
+            >
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='images/products/' +
+                        product.category.name +
+                        '/' +
+                        product.image
+                    ) }}"
+                    alt="{{ product.name }}"
+                >
+
+            </a>
+
+
+            <div class="featured-product-info">
+
+                <p class="featured-product-category">
+                    {{ product.category.name }}
+                </p>
+
+                <h3>
+                    {{ product.name }}
+                </h3>
+
+
+                <div class="featured-product-rating">
+
+                    <span class="stars">
+                        ★★★★★
+                    </span>
+
+                    <span>
+                        {{ product.rating }}
+                    </span>
+
+                </div>
+
+
+                <div class="featured-product-price">
+
+                    ₹{{ "%.2f"|format(product.price) }}
+
+                </div>
+
+
+                <div class="featured-product-actions">
+
+                    <button
+                        type="button"
+                        class="add-cart-btn category-add-cart"
+                        data-product-id="{{ product.id }}"
+                    >
+                        Add to Cart
+                    </button>
+
+                    <a
+                        href="{{ url_for(
+                            'product_details',
+                            product_id=product.id
+                        ) }}"
+                        class="view-product-btn"
+                    >
+                        View Details
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const cards = document.querySelectorAll(
+        ".featured-product-card"
+    );
+
+    const observer = new IntersectionObserver(
+        function (entries) {
+
+            entries.forEach(function (entry) {
+
+                if (entry.isIntersecting) {
+
+                    entry.target.classList.add("show-card");
+
+                    observer.unobserve(entry.target);
+                }
+
+            });
+
+        },
+        {
+            threshold: 0.15
+        }
+    );
+
+    cards.forEach(function (card) {
+        observer.observe(card);
+    });
+
+});
+</script>
+
+
+<!-- =====================================================
+     PROMO SECTION
+===================================================== -->
+
+<section class="promo-section">
+
+    <div class="promo-content">
+
+        <p class="section-label">
+            SHOPKART DEALS
+        </p>
+
+        <h2>
+            Quality Products.
+            <span>Smart Prices.</span>
+        </h2>
+
+        <p>
+            Explore our growing collection and discover
+            products made for your everyday needs.
+        </p>
+
+        <a
+            href="#categories"
+            class="promo-button"
+        >
+            Start Shopping
+        </a>
+
+    </div>
+
+</section>
+
+{% endif %}
+
+{% endblock %}
