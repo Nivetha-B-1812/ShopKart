@@ -20,14 +20,17 @@ def send_order_confirmation_email(
         sender_password = os.getenv("SHOPKART_MAIL_PASSWORD")
 
         if not sender_email or not sender_password:
-            print("Mail credentials are missing in .env")
+            print("Mail credentials are missing.")
             return False
 
         customer_email = decrypt_email(encrypted_email)
 
         message = EmailMessage()
 
-        message["Subject"] = f"ShopKart Order Confirmed - {order_id}"
+        message["Subject"] = (
+            f"ShopKart Order Confirmed - {order_id}"
+        )
+
         message["From"] = sender_email
         message["To"] = customer_email
 
@@ -56,16 +59,33 @@ ShopKart Team
 """
         )
 
-        with smtplib.SMTP("smtp.gmail.com", 587) as server:
+        with smtplib.SMTP(
+            "smtp.gmail.com",
+            587,
+            timeout=10
+        ) as server:
+
             server.starttls()
-            server.login(sender_email, sender_password)
+
+            server.login(
+                sender_email,
+                sender_password
+            )
+
             server.send_message(message)
 
-        print(f"Order confirmation email sent to {customer_email}")
+        print(
+            f"Order confirmation email sent to {customer_email}"
+        )
+
         return True
 
     except Exception as error:
-        print("Email sending failed:", error)
+        print(
+            "Email sending failed:",
+            error
+        )
+
         return False
 
 
@@ -80,7 +100,7 @@ def send_order_status_email(
         sender_password = os.getenv("SHOPKART_MAIL_PASSWORD")
 
         if not sender_email or not sender_password:
-            print("Mail credentials are missing in .env")
+            print("Mail credentials are missing.")
             return False
 
         customer_email = decrypt_email(encrypted_email)
@@ -115,9 +135,19 @@ ShopKart Team
 """
         )
 
-        with smtplib.SMTP("smtp.gmail.com", 587) as server:
+        with smtplib.SMTP(
+            "smtp.gmail.com",
+            587,
+            timeout=10
+        ) as server:
+
             server.starttls()
-            server.login(sender_email, sender_password)
+
+            server.login(
+                sender_email,
+                sender_password
+            )
+
             server.send_message(message)
 
         print(
@@ -127,5 +157,9 @@ ShopKart Team
         return True
 
     except Exception as error:
-        print("Order status email failed:", error)
+        print(
+            "Order status email failed:",
+            error
+        )
+
         return False
