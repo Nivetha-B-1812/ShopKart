@@ -158,6 +158,7 @@ Orders can also be marked as:
 
 ---
 
+```text
 📁 Project Structure
 
 ShopKart/
