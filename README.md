@@ -1,136 +1,164 @@
-ShopKart
+🛒 ShopKart
 
-Shop More, Worry Less.
+🛍️ Shop More, Worry Less.
 
-ShopKart is a full-stack e-commerce web application developed as an academic project. It provides a professional online shopping experience with product browsing, category-based shopping, search, cart management, checkout, user authentication, order tracking, and admin management.
+A professional full-stack e-commerce web application inspired by modern online shopping platforms, developed as an academic Full Stack Web Development project.
 
-Live Application
+🌐 Live Application: https://shopkart-5q9a.onrender.com
 
-Live Demo:
-https://shopkart-5q9a.onrender.com
+---
 
-Project Overview
+✨ About ShopKart
 
-ShopKart is designed as a modern e-commerce platform inspired by real-world online shopping applications while maintaining its own brand identity and implementation.
+ShopKart is a full-stack e-commerce application designed to provide a smooth, modern, and user-friendly online shopping experience.
 
-The application includes both customer-side and administrator-side functionality.
+The application includes product browsing, category-based shopping, search, cart management, secure authentication, checkout, order tracking, customer account management, and an admin dashboard.
 
-Key Features
+---
 
-Customer Features
+🚀 Key Features
 
-- Professional responsive home page
-- Product categories
-- 48 products across 8 categories
-- Product details page
-- Product search
-- Add to Cart
-- Update cart quantity
-- Remove products from cart
-- Dynamic cart count
-- Buy Now
-- Checkout
-- Order placement
-- Order confirmation page
-- My Account
-- My Profile
-- Edit profile information
-- Change password
-- My Orders
-- Order status tracking
-- Login
-- Sign Up
-- Logout
+🏠 Customer Features
 
-Product Categories
+- 🛍️ Professional home page
+- 📦 Browse products by category
+- 🔎 Product search
+- 🖼️ Product images and details
+- ⭐ Product ratings
+- 🛒 Add products to cart
+- ➕➖ Update product quantity
+- ❌ Remove products from cart
+- 💰 Dynamic cart total
+- ⚡ Buy Now option
+- 💳 Checkout and simulated payment
+- 📋 Order summary
+- 📦 Order tracking
+- 👤 Customer account
+- 📝 Edit profile
+- 🔐 Change password
+- 🚪 Secure logout
 
-ShopKart contains 8 categories:
+---
 
-1. Electronics
-2. Fashion
-3. Home & Kitchen
-4. Books
-5. Gaming
-6. Fruits
-7. Vegetables
-8. Grocery
+🗂️ Product Categories
 
-Each category contains 6 products, giving a total of 48 products.
+ShopKart currently contains 8 categories with 48 products.
 
-Security Features
+Category| Products
+💻 Electronics| 6
+👗 Fashion| 6
+🏠 Home & Kitchen| 6
+📚 Books| 6
+🎮 Gaming| 6
+🍎 Fruits| 6
+🥕 Vegetables| 6
+🛒 Grocery| 6
 
-ShopKart includes security-related features such as:
+Total: 48 Products
 
-- Password hashing using Werkzeug
-- User session management
-- Encrypted email storage
-- Key-based email lookup
-- Authenticated encryption using PyNaCl SecretBox
-- Environment variables for sensitive configuration
-- Separate admin access control
+---
 
-Sensitive credentials and encryption keys are stored using environment variables and are not included in the GitHub repository.
+🔐 Security Features
 
-Admin Features
+ShopKart includes security-focused features for user accounts and sensitive information.
 
-The administrator can:
+- 🔒 Secure password hashing
+- 🔐 Encrypted email storage
+- 🛡️ Authenticated encryption using PyNaCl
+- 🔑 HMAC-based email lookup
+- 🍪 Session-based authentication
+- 🔒 Environment variables for sensitive credentials
+- 🚫 Sensitive configuration excluded from GitHub using ".gitignore"
 
-- Access the Admin Dashboard
-- View order statistics
-- View total sales
-- Manage customer orders
-- View order details
-- Update order status
-- Send order status notifications
-- View all products
-- Edit product information
-- Update price, stock and rating
-- View product details
+---
 
-Order Status
+👨‍💼 Admin Features
 
-Orders can have the following statuses:
+ShopKart includes a dedicated admin dashboard for managing the application.
 
-- Confirmed
-- Packed
-- Shipped
-- Delivered
-- Cancelled
+📊 Admin Dashboard
 
-Technology Stack
+- 📦 Total orders
+- 💰 Total sales
+- 🟡 Confirmed orders
+- 📦 Packed orders
+- 🚚 Shipped orders
+- ✅ Delivered orders
+- ❌ Cancelled orders
+- 🕒 Recent orders
 
-Frontend
+📋 Order Management
+
+- 👀 View all customer orders
+- 📄 View order details
+- 🔄 Update order status
+- 📧 Send order status notifications
+
+🛍️ Product Management
+
+- 📦 View all products
+- ✏️ Edit product information
+- 💰 Update price
+- 📊 Update stock
+- ⭐ Update rating
+- 🗂️ Change product category
+- 👀 View product details
+
+---
+
+📦 Order Status
+
+Orders can move through the following stages:
+
+🟡 Confirmed
+      ↓
+📦 Packed
+      ↓
+🚚 Shipped
+      ↓
+✅ Delivered
+
+Orders can also be marked as:
+
+❌ Cancelled
+
+---
+
+🛠️ Technology Stack
+
+🎨 Frontend
 
 - HTML5
 - CSS3
 - JavaScript
-- Responsive Web Design
-- SVG Icons
 
-Backend
+⚙️ Backend
 
 - Python
 - Flask
 - Flask-SQLAlchemy
 
-Database
+🗄️ Database
 
 - SQLite
 - SQLAlchemy ORM
 
-Security
+🔐 Security
 
 - Werkzeug Password Hashing
 - PyNaCl
-- SecretBox authenticated encryption
-- HMAC-based email lookup
+- HMAC
+- Environment Variables
 
-Deployment
+☁️ Deployment
 
 - GitHub
 - Render
+- Gunicorn
 
-Project Structure
+---
+
+📁 Project Structure
 
 ShopKart/
 │
@@ -139,7 +167,6 @@ ShopKart/
 ├── requirements.txt
 ├── .env
 ├── .gitignore
-├── README.md
 │
 ├── database/
 │   └── shopkart.db
@@ -147,35 +174,30 @@ ShopKart/
 ├── models/
 │   ├── __init__.py
 │   ├── user.py
-│   ├── product.py
 │   ├── category.py
+│   ├── product.py
 │   ├── cart.py
 │   ├── order.py
 │   ├── order_item.py
 │   ├── encryption.py
 │   └── email_service.py
 │
-├── routes/
-│   ├── auth.py
-│   ├── main.py
-│   ├── products.py
-│   ├── cart.py
-│   ├── checkout.py
-│   └── account.py
-│
 ├── templates/
 │   ├── base.html
 │   ├── index.html
 │   ├── login.html
 │   ├── signup.html
-│   ├── categories.html
 │   ├── product.html
 │   ├── cart.html
 │   ├── checkout.html
-│   ├── order_success.html
-│   ├── account.html
 │   ├── orders.html
-│   └── admin pages
+│   ├── account.html
+│   ├── profile.html
+│   ├── admin_dashboard.html
+│   ├── admin_orders.html
+│   ├── admin_order_details.html
+│   ├── admin_products.html
+│   └── admin_edit_product.html
 │
 └── static/
     ├── css/
@@ -189,101 +211,149 @@ ShopKart/
         ├── categories/
         └── products/
 
-Installation and Setup
+---
 
-1. Clone the Repository
+⚙️ Installation & Setup
+
+1️⃣ Clone the Repository
 
 git clone https://github.com/Nivetha-B-1812/ShopKart.git
 cd ShopKart
 
-2. Create a Virtual Environment
-
-python -m venv venv
-
-Activate the environment:
-
-source venv/bin/activate
-
-3. Install Dependencies
+2️⃣ Install Dependencies
 
 pip install -r requirements.txt
 
-4. Configure Environment Variables
+3️⃣ Configure Environment Variables
 
-Create a ".env" file and add the required configuration:
+Create a ".env" file and configure the required application secrets.
 
-SECRET_KEY=your_secret_key
+SECRET_KEY=your-secret-key
 
-SHOPKART_ENCRYPTION_KEY=your_encryption_key
+SHOPKART_ENCRYPTION_KEY=your-encryption-key
 
-SHOPKART_MAIL_USERNAME=your_email
-SHOPKART_MAIL_PASSWORD=your_app_password
+SHOPKART_MAIL_USERNAME=your-email
+SHOPKART_MAIL_PASSWORD=your-app-password
 
-SHOPKART_ADMIN_EMAIL=your_admin_email
+SHOPKART_ADMIN_EMAIL=your-admin-email
 
-SHOPKART_CONTACT_EMAIL=your_contact_email
-SHOPKART_HELP_EMAIL=your_help_email
+SHOPKART_CONTACT_EMAIL=your-contact-email
+SHOPKART_HELP_EMAIL=your-help-email
 
-Do not commit the ".env" file to GitHub.
+«⚠️ Never upload the ".env" file or real passwords/keys to GitHub.»
 
-5. Run the Application
+---
+
+▶️ Run the Application
+
+Start the Flask application using:
 
 python app.py
 
-Open:
+Then open:
 
 http://127.0.0.1:5000/
 
-Email Notification
+---
 
-ShopKart includes an email notification system for order-related communication.
+📧 Email Notification
 
-When running locally, the application can send:
+ShopKart includes email notification functionality for:
 
-- Order confirmation emails
-- Order status update emails
+- 📩 Order confirmation
+- 🔄 Order status updates
 
-The email recipient address is obtained from the encrypted user email data and decrypted only when required for authorized email delivery.
+The application uses the customer's encrypted email information and decrypts it only when authorized email delivery is required.
 
+☁️ Deployment Note
+
+The local application successfully supports email notifications.
+
+However, the current Render Free Web Service environment restricts outbound SMTP traffic, so Gmail SMTP email delivery may not work after deployment.
+
+The application itself remains functional for:
+
+- 🔐 Login
+- 🛒 Cart
+- 💳 Checkout
+- 📦 Order placement
+- 👨‍💼 Admin management
+- 📋 Order tracking
+
+---
+
+🌐 Deployment
+
+ShopKart is deployed using:
+
+- 🐙 GitHub for source code
+- ☁️ Render for hosting
+- 🚀 Gunicorn as the production WSGI server
+
+🔗 Live Website
+
+https://shopkart-5q9a.onrender.com
+
+---
+
+🔮 Future Improvements
+
+Planned improvements for future versions include:
+
+- 💳 Real payment gateway integration
+- 📧 HTTPS-based email API integration
+- 🗄️ PostgreSQL production database
+- 📱 Progressive Web App support
+- ❤️ Wishlist functionality
+- 🔔 Real-time notifications
+- 🎟️ Coupon and discount system
+- ⭐ Customer reviews
+- 📊 Advanced admin analytics
+- 🚚 Improved delivery management
+
+---
+
+🎓 Academic Project
+
+This project was developed as part of a Full Stack Web Development academic project.
+
+The main objective is to demonstrate practical implementation of:
+
+Frontend
+   ↓
+Backend
+   ↓
+Database
+   ↓
+Authentication
+   ↓
+Security
+   ↓
+E-Commerce
+   ↓
 Deployment
 
-The project is connected to GitHub and deployed as a Flask web service.
+---
 
-Start Command
-
-gunicorn app:app
-
-Environment variables required for deployment must be configured in the deployment platform.
-
-Future Improvements
-
-Possible future enhancements include:
-
-- Online payment gateway integration
-- Persistent production database
-- HTTPS-based transactional email API
-- Product reviews and ratings
-- Wishlist
-- Coupon and discount system
-- Advanced product filtering
-- Recommendation system
-- Image upload management
-- Improved admin analytics
-- Persistent cloud storage
-
-Academic Project
-
-Project Name: ShopKart
-Type: Full Stack Web Development Project
-Application: E-Commerce Web Application
-Tagline: Shop More, Worry Less.
-
-Author
+👩‍💻 Developer
 
 Nivetha Baskar
 
-B.Tech Information Technology
+🎓 B.Tech Information Technology
+💻 Full Stack Web Development Project
 
-License
+---
+
+📜 License
 
 This project is developed for academic and educational purposes.
+
+© 2026 ShopKart. All rights reserved.
+
+---
+
+🛒 ShopKart
+
+Shop More, Worry Less.
+
+Built with HTML, CSS, JavaScript, Python, Flask & SQLAlchemy.
