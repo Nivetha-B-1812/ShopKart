@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Customer Feedback - ShopKart{% endblock %}
+
+{% block content %}
+
+<section class="admin-feedback-page">
+
+    <div class="admin-feedback-header">
+        <p class="section-label">SHOPKART ADMIN</p>
+        <h1>Customer Feedback</h1>
+        <p>Review feedback shared by ShopKart customers.</p>
+    </div>
+
+    {% if feedbacks %}
+
+        <div class="feedback-list">
+
+            {% for feedback in feedbacks %}
+
+                <article class="admin-feedback-card">
+
+                    <div class="feedback-card-top">
+
+                        <div>
+                            <h2>{{ feedback.name }}</h2>
+                            <p>{{ feedback.email }}</p>
+                            <p class="admin-feedback-category">
+    Category: {{ feedback.feedback_category or "General" }}
+</p>
+                        </div>
+
+                        <div class="admin-feedback-rating">
+                            {{ feedback.rating }}/5
+                        </div>
+
+                    </div>
+
+                    <div class="admin-feedback-message">
+                        {{ feedback.message }}
+                    </div>
+
+                    <div class="admin-feedback-date">
+                        Submitted:
+                        {{ feedback.created_at.strftime("%d %b %Y, %I:%M %p") }}
+                    </div>
+
+                </article>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="no-feedback">
+            <h2>No Customer Feedback Yet</h2>
+            <p>Customer feedback will appear here after someone submits the feedback form.</p>
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

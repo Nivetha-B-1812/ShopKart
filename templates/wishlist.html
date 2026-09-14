@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}My Wishlist - ShopKart{% endblock %}
+
+{% block content %}
+
+<section class="wishlist-page">
+
+    <div class="wishlist-header">
+        <p class="section-label">SHOPKART</p>
+        <h1>My Wishlist</h1>
+        <p>Save your favourite products and shop them whenever you want.</p>
+    </div>
+
+    {% if wishlist_items %}
+
+        <div class="wishlist-grid">
+
+            {% for item in wishlist_items %}
+
+                <article class="wishlist-card">
+
+                    <a href="{{ url_for('product_details', product_id=item.product.id) }}"
+                       class="wishlist-image">
+
+                        <img
+                            src="{{ url_for(
+                                'static',
+                                filename='images/products/' ~
+                                item.product.category.name ~ '/' ~
+                                item.product.image
+                            ) }}"
+                            alt="{{ item.product.name }}"
+                        >
+
+                    </a>
+
+                    <div class="wishlist-info">
+
+                        <p class="wishlist-category">
+                            {{ item.product.category.name }}
+                        </p>
+
+                        <h2>
+                            {{ item.product.name }}
+                        </h2>
+                        <p class="wishlist-description">
+    {{ item.product.description }}
+</p>
+
+                        <div class="wishlist-rating">
+                            ★ {{ get_product_rating(item.product) }} / 5
+                        </div>
+
+                        <div class="wishlist-price">
+                            ₹{{ "%.2f"|format(item.product.price) }}
+                        </div>
+
+                        <div class="wishlist-actions">
+
+                            <a
+                                href="{{ url_for('product_details', product_id=item.product.id) }}"
+                                class="wishlist-view-btn"
+                            >
+                                View Product
+                            </a>
+
+                            <button
+                                type="button"
+                                class="wishlist-remove-btn"
+                                data-product-id="{{ item.product.id }}"
+                            >
+                                Remove
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-wishlist">
+
+            <div class="empty-wishlist-icon">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path
+                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+                </svg>
+            </div>
+
+            <h2>Your Wishlist is Empty</h2>
+
+            <p>
+                Save products you love here for easy access later.
+            </p>
+
+            <a href="{{ url_for('home') }}" class="wishlist-shop-btn">
+                Continue Shopping
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

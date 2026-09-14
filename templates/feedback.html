@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+
+{% block title %}Give Feedback - ShopKart{% endblock %}
+
+{% block content %}
+
+<section class="feedback-page">
+
+    <div class="feedback-header">
+        <p class="section-label">SHOPKART SUPPORT</p>
+
+        <h1>We Value Your Feedback</h1>
+
+        <p>
+            Tell us about your ShopKart experience. Your feedback helps us
+            improve our products, service and shopping experience.
+        </p>
+    </div>
+
+
+    <div class="feedback-card">
+
+        <div class="feedback-card-heading">
+            <h2>Share Your Experience</h2>
+            <p>
+                Please take a moment to tell us what you think.
+            </p>
+        </div>
+
+
+        {% if success %}
+            <div class="feedback-success">
+                <strong>Feedback Submitted</strong>
+                <span>{{ success }}</span>
+            </div>
+        {% endif %}
+
+
+        {% if error %}
+            <div class="feedback-error">
+                <strong>Unable to Submit</strong>
+                <span>{{ error }}</span>
+            </div>
+        {% endif %}
+
+
+        <form method="POST" action="{{ url_for('feedback') }}">
+
+
+            <!-- NAME -->
+            <div class="form-group">
+
+                <label for="name">
+                    Your Name
+                    <span>*</span>
+                </label>
+
+                <input
+    type="text"
+    id="name"
+    name="name"
+    placeholder="Enter your full name"
+    autocomplete="name"
+    value="{{ user_name }}"
+    required
+>
+
+            </div>
+
+
+            <!-- EMAIL -->
+            <div class="form-group">
+
+                <label for="email">
+                    Email Address
+                    <span>*</span>
+                </label>
+
+               <input
+    type="email"
+    id="email"
+    name="email"
+    placeholder="Enter your email address"
+    autocomplete="email"
+    value="{{ user_email }}"
+    required
+>
+
+                <small>
+                    We'll use this only if we need to follow up about your feedback.
+                </small>
+
+            </div>
+
+
+            <!-- CATEGORY -->
+            <div class="form-group">
+
+                <label for="feedbackCategory">
+                    Feedback Category
+                </label>
+
+                <select id="feedbackCategory" name="feedback_category">
+
+                    <option value="">
+                        Select a category
+                    </option>
+
+                    <option value="Product">
+                        Product
+                    </option>
+
+                    <option value="Website">
+                        Website
+                    </option>
+
+                    <option value="Shopping Experience">
+                        Shopping Experience
+                    </option>
+
+                    <option value="Delivery">
+                        Delivery
+                    </option>
+
+                    <option value="Customer Service">
+                        Customer Service
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- RATING -->
+            <div class="form-group">
+
+                <label>
+                    Overall Rating
+                    <span>*</span>
+                </label>
+
+                <div class="star-rating" role="radiogroup" aria-label="Overall rating">
+
+                    <input type="radio" id="rating5" name="rating" value="5" required>
+                    <label for="rating5" title="Excellent">★</label>
+
+                    <input type="radio" id="rating4" name="rating" value="4">
+                    <label for="rating4" title="Very Good">★</label>
+
+                    <input type="radio" id="rating3" name="rating" value="3">
+                    <label for="rating3" title="Good">★</label>
+
+                    <input type="radio" id="rating2" name="rating" value="2">
+                    <label for="rating2" title="Fair">★</label>
+
+                    <input type="radio" id="rating1" name="rating" value="1">
+                    <label for="rating1" title="Poor">★</label>
+
+                </div>
+
+                <p class="rating-help" id="ratingText">
+                    Select a rating from 1 to 5.
+                </p>
+
+            </div>
+
+
+            <!-- MESSAGE -->
+            <div class="form-group">
+
+                <div class="message-label-row">
+
+                    <label for="message">
+                        Your Feedback
+                        <span>*</span>
+                    </label>
+
+                    <span id="characterCount">0 / 500</span>
+
+                </div>
+
+                <textarea
+                    id="message"
+                    name="message"
+                    rows="6"
+                    maxlength="500"
+                    placeholder="Tell us what you liked, what we can improve, or anything else you'd like to share..."
+                    required
+                ></textarea>
+
+                <small>
+                    Please keep your feedback clear and respectful.
+                </small>
+
+            </div>
+
+
+            <!-- SUBMIT -->
+            <button type="submit" class="feedback-submit-btn">
+                Submit Feedback
+            </button>
+
+
+            <p class="feedback-note">
+                Your feedback helps us make ShopKart better.
+            </p>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

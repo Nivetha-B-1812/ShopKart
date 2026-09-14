@@ -96,132 +96,232 @@
 
             </form>
 
+<!-- HEADER ACTIONS -->
+<nav class="header-actions" aria-label="Main navigation">
+    {% if not is_admin() %}
+    <!-- CUSTOMER SERVICE -->
+    <a href="{{ url_for('help_center') }}"
+       class="header-action customer-service-action"
+       aria-label="Customer Service">
 
-            <!-- HEADER ACTIONS -->
-            <nav class="header-actions"
-                 aria-label="Main navigation">
+        <svg viewBox="0 0 24 24"
+             xmlns="http://www.w3.org/2000/svg"
+             aria-hidden="true">
 
-                <!-- ACCOUNT -->
-                <a href="{{ url_for('account') }}"
-                   class="header-action">
+            <!-- Headset -->
+            <path d="M4 13V11C4 6.58 7.58 3 12 3C16.42 3 20 6.58 20 11V13"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"/>
 
-                    <svg viewBox="0 0 24 24"
-                         xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 12H3.5C2.67 12 2 12.67 2 13.5V16.5C2 17.33 2.67 18 3.5 18H5V13C5 12.45 4.55 12 4 12Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linejoin="round"/>
 
-                        <circle cx="12"
-                                cy="8"
-                                r="4"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="1.8"/>
+            <path d="M20 12H20.5C21.33 12 22 12.67 22 13.5V16.5C22 17.33 21.33 18 20.5 18H19V13C19 12.45 19.45 12 20 12Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linejoin="round"/>
 
-                        <path d="M4 21C4.8 16.8 7.4 14.5 12 14.5C16.6 14.5 19.2 16.8 20 21"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="1.8"
-                              stroke-linecap="round"/>
+            <path d="M19 18C18.6 20 17 21 14.5 21H13"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"/>
 
-                    </svg>
+        </svg>
 
-                    <span>My Account</span>
+        <span>Customer Service</span>
 
-                </a>
+    </a>
+  {% endif %}
 
 
-               <!-- ORDERS -->
+    <!-- ACCOUNT -->
+    <a href="{{ url_for('account') }}"
+       class="header-action"
+       aria-label="My Account">
+
+        <svg viewBox="0 0 24 24"
+             xmlns="http://www.w3.org/2000/svg"
+             aria-hidden="true">
+
+            <circle cx="12"
+                    cy="8"
+                    r="4"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"/>
+
+            <path d="M4 21C4.8 16.8 7.4 14.5 12 14.5C16.6 14.5 19.2 16.8 20 21"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"/>
+
+        </svg>
+
+        <span>My Account</span>
+
+    </a>
+
+
+    <!-- ORDERS -->
+{% if not is_admin() %}
 <a href="{{ url_for('orders') }}"
-   class="header-action">
+   class="header-action"
+   aria-label="My Orders">
 
-                    <svg viewBox="0 0 24 24"
-                         xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 24 24"
+         xmlns="http://www.w3.org/2000/svg"
+         aria-hidden="true">
 
-                        <path d="M6 3H18V21H6Z"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="1.8"
-                              stroke-linejoin="round"/>
+        <path d="M6 3H18V21H6Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linejoin="round"/>
 
-                        <path d="M9 7H15M9 11H15M9 15H13"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="1.8"
-                              stroke-linecap="round"/>
+        <path d="M9 7H15M9 11H15M9 15H13"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"/>
 
-                    </svg>
+    </svg>
 
-                    <span>My Orders</span>
-
-                </a>
-
-
-{% if is_admin() %}
-<a href="{{ url_for('admin_dashboard') }}"
-   class="header-action admin-header-action">
-
-<svg viewBox="0 0 24 24"
-     xmlns="http://www.w3.org/2000/svg"
-     aria-hidden="true">
-
-    <path d="M5 19L10.2 5H13.8L19 19"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"/>
-
-    <path d="M7.2 14H16.8"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"/>
-
-</svg>
-
-    <span>Manage Orders</span>
+    <span>My Orders</span>
 
 </a>
 {% endif %}
 
-                <!-- CART -->
-                <a href="{{ url_for('cart') }}"
-   class="cart-action"
-   aria-label="Shopping Cart">
 
-                    <div class="cart-icon-wrapper">
+    <!-- ADMIN -->
+    {% if is_admin() %}
 
-                        <svg viewBox="0 0 32 32"
-                             xmlns="http://www.w3.org/2000/svg">
+    <a href="{{ url_for('admin_dashboard') }}"
+       class="header-action admin-header-action"
+       aria-label="Manage Orders">
 
-                            <path d="M4 6H7L10 21C10.3 22.5 11.6 23.5 13.1 23.5H23.5C24.9 23.5 26.1 22.6 26.6 21.3L29 13H8.5"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2.2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"/>
+        <svg viewBox="0 0 24 24"
+             xmlns="http://www.w3.org/2000/svg"
+             aria-hidden="true">
 
-                            <circle cx="13"
-                                    cy="28"
-                                    r="2"
-                                    fill="currentColor"/>
+            <path d="M5 19L10.2 5H13.8L19 19"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"/>
 
-                            <circle cx="24"
-                                    cy="28"
-                                    r="2"
-                                    fill="currentColor"/>
+            <path d="M7.2 14H16.8"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"/>
 
-                        </svg>
+        </svg>
 
-                       <span class="cart-count">
-    {{ session.get("cart", {}).values() | sum }}
-</span>
+        <span>Manage Orders</span>
 
-                    </div>
+    </a>
+    
+   <!-- CUSTOMER FEEDBACK -->
+<a href="{{ url_for('admin_feedback') }}"
+   class="header-action admin-header-action"
+   aria-label="Customer Feedback">
 
-                    <span>Cart</span>
+    <svg viewBox="0 0 24 24"
+         xmlns="http://www.w3.org/2000/svg"
+         aria-hidden="true">
 
-                </a>
+        <path d="M4 5.5C4 4.67 4.67 4 5.5 4H18.5C19.33 4 20 4.67 20 5.5V15.5C20 16.33 19.33 17 18.5 17H10L6 20V17H5.5C4.67 17 4 16.33 4 15.5V5.5Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linejoin="round"/>
 
-            </nav>
+        <path d="M8 9H16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"/>
+
+        <path d="M8 12H13"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"/>
+
+    </svg>
+
+    <span>Feedback</span>
+
+</a> 
+
+    {% endif %}
+    
+<!-- WISHLIST -->
+<a href="{{ url_for('wishlist') }}" class="header-action wishlist-action" aria-label="Wishlist">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path
+            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"
+            stroke="currentColor"
+            stroke-width="1.9"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        />
+    </svg>
+    <span>Wishlist</span>
+</a>
+
+
+    <!-- CART -->
+    <a href="{{ url_for('cart') }}"
+       class="cart-action"
+       aria-label="Cart">
+
+        <div class="cart-icon-wrapper">
+
+            <svg viewBox="0 0 32 32"
+                 xmlns="http://www.w3.org/2000/svg"
+                 aria-hidden="true">
+
+                <path d="M4 6H7L10 21C10.3 22.5 11.6 23.5 13.1 23.5H23.5C24.9 23.5 26.1 22.6 26.6 21.3L29 13H8.5"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"/>
+
+                <circle cx="13"
+                        cy="28"
+                        r="2"
+                        fill="currentColor"/>
+
+                <circle cx="24"
+                        cy="28"
+                        r="2"
+                        fill="currentColor"/>
+
+            </svg>
+
+            <span class="cart-count">
+                {{ session.get("cart", {}).values() | sum }}
+            </span>
+
+        </div>
+
+        <span>Cart</span>
+
+    </a>
+
+</nav>
+
 
         </div>
 
@@ -333,29 +433,28 @@
 
             </div>
 
+<div class="footer-section">
 
-            <div class="footer-section">
+    <h4>Shop</h4>
 
-                <h4>Shop</h4>
+    <a href="/electronics">Electronics</a>
+    <a href="/fashion">Fashion</a>
+    <a href="/home-kitchen">Home &amp; Kitchen</a>
+    <a href="/books">Books</a>
 
-                <a href="#">Electronics</a>
-                <a href="#">Fashion</a>
-                <a href="#">Home & Kitchen</a>
-                <a href="#">Books</a>
-
-            </div>
+</div>
 
 
-            <div class="footer-section">
+<div class="footer-section">
 
-                <h4>Explore</h4>
+    <h4>Explore</h4>
 
-                <a href="#">Gaming</a>
-                <a href="#">Fruits</a>
-                <a href="#">Vegetables</a>
-                <a href="#">Grocery</a>
+    <a href="/gaming">Gaming</a>
+    <a href="/fruits">Fruits</a>
+    <a href="/vegetables">Vegetables</a>
+    <a href="/grocery">Grocery</a>
 
-            </div>
+</div>
 
 
             <div class="footer-section">

@@ -217,13 +217,26 @@ function updateCartTotals() {
             });
     }
 
-    if (totalElement) {
-        totalElement.textContent =
-            "₹" + subtotal.toLocaleString("en-IN", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            });
-    }
+    const discount = subtotal * 0.10;
+const finalTotal = subtotal - discount;
+
+const discountElement = document.querySelector("#cartDiscount");
+
+if (discountElement) {
+    discountElement.textContent =
+        "-₹" + discount.toLocaleString("en-IN", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+}
+
+if (totalElement) {
+    totalElement.textContent =
+        "₹" + finalTotal.toLocaleString("en-IN", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+}
 
     const itemsElement = document.querySelector(
         ".cart-summary .summary-row:first-of-type span:last-child"
@@ -508,5 +521,329 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
     });
+
+});
+
+// =========================================================
+// REVIEW STAR SELECTION
+// =========================================================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const ratingStars = document.querySelectorAll(".rating-star");
+    const reviewRating = document.getElementById("reviewRating");
+
+    if (!ratingStars.length || !reviewRating) {
+        return;
+    }
+
+    ratingStars.forEach(function (star) {
+
+        star.addEventListener("click", function () {
+
+            const selectedRating = parseInt(
+                this.getAttribute("data-rating")
+            );
+
+            reviewRating.value = selectedRating;
+
+            ratingStars.forEach(function (item) {
+
+                const itemRating = parseInt(
+                    item.getAttribute("data-rating")
+                );
+
+                if (itemRating <= selectedRating) {
+                    item.classList.add("active");
+                } else {
+                    item.classList.remove("active");
+                }
+
+            });
+
+        });
+
+    });
+
+});
+
+// =========================================================
+// SUBMIT CUSTOMER REVIEW
+// =========================================================
+
+async function submitReview(productId) {
+
+    const ratingInput = document.getElementById("reviewRating");
+    const commentInput = document.getElementById("reviewComment");
+    const message = document.getElementById("reviewMessage");
+
+    const rating = parseInt(ratingInput.value);
+    const comment = commentInput.value.trim();
+
+    if (!rating || rating < 1 || rating > 5) {
+        message.textContent = "Please select a rating.";
+        message.style.color = "#dc2626";
+        return;
+    }
+
+    if (!comment) {
+        message.textContent = "Please write your feedback.";
+        message.style.color = "#dc2626";
+        return;
+    }
+
+    if (comment.length < 5) {
+        message.textContent = "Feedback must contain at least 5 characters.";
+        message.style.color = "#dc2626";
+        return;
+    }
+
+    if (comment.length > 1000) {
+        message.textContent = "Feedback cannot exceed 1000 characters.";
+        message.style.color = "#dc2626";
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `/product/${productId}/review`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    rating: rating,
+                    comment: comment
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (data.success) {
+
+            message.textContent = data.message;
+            message.style.color = "#15803d";
+
+            commentInput.value = "";
+            ratingInput.value = "0";
+
+            document.querySelectorAll(".rating-star").forEach(function (star) {
+                star.classList.remove("active");
+            });
+
+            setTimeout(function () {
+                window.location.reload();
+            }, 1000);
+
+        } else {
+
+            message.textContent = data.message;
+            message.style.color = "#dc2626";
+
+        }
+
+    } catch (error) {
+
+        console.error("Review submission error:", error);
+
+        message.textContent =
+            "Something went wrong. Please try again.";
+
+        message.style.color = "#dc2626";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const wishlistButtons = document.querySelectorAll(".product-wishlist-btn, .image-wishlist-btn");
+
+    wishlistButtons.forEach(function (button) {
+
+        button.addEventListener("click", async function () {
+
+            const productId = this.dataset.productId;
+
+            if (!productId) {
+                return;
+            }
+
+            try {
+
+                const response = await fetch(
+                    `/toggle-wishlist/${productId}`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    }
+                );
+
+                const data = await response.json();
+
+                if (data.login_required) {
+                    window.location.href = "/login";
+                    return;
+                }
+
+                if (!data.success) {
+                    alert(data.message || "Something went wrong.");
+                    return;
+                }
+
+                if (data.added) {
+                    this.classList.add("active");
+                    this.setAttribute("aria-label", "Remove from Wishlist");
+                } else {
+                    this.classList.remove("active");
+                    this.setAttribute("aria-label", "Add to Wishlist");
+                }
+
+            } catch (error) {
+
+                console.error("Wishlist error:", error);
+
+                alert("Unable to update Wishlist.");
+            }
+
+        });
+
+    });
+
+});
+
+// =========================================================
+// WISHLIST REMOVE
+// =========================================================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const removeButtons = document.querySelectorAll(".wishlist-remove-btn");
+
+    removeButtons.forEach(function (button) {
+
+        button.addEventListener("click", async function () {
+
+            const productId = this.dataset.productId;
+
+            if (!productId) {
+                return;
+            }
+
+            try {
+
+                const response = await fetch(
+                    `/toggle-wishlist/${productId}`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    }
+                );
+
+                const data = await response.json();
+
+                if (!data.success) {
+                    alert(data.message || "Unable to remove product.");
+                    return;
+                }
+
+                if (data.added === false) {
+
+                    const card = this.closest(".wishlist-card");
+
+                    if (card) {
+                        card.remove();
+                    }
+
+                }
+
+            } catch (error) {
+
+                console.error("Wishlist remove error:", error);
+
+                alert("Unable to remove product.");
+            }
+
+        });
+
+    });
+
+});
+
+// =========================================================
+// FEEDBACK PAGE INTERACTIONS
+// =========================================================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Character Counter
+    const messageBox = document.getElementById("message");
+    const characterCount = document.getElementById("characterCount");
+
+    if (messageBox && characterCount) {
+
+        function updateCharacterCount() {
+            const currentLength = messageBox.value.length;
+
+            characterCount.textContent =
+                currentLength + " / 500";
+
+            if (currentLength >= 450) {
+                characterCount.style.color = "#d97706";
+            } else {
+                characterCount.style.color = "#9ca3af";
+            }
+
+            if (currentLength >= 500) {
+                characterCount.style.color = "#dc2626";
+            }
+        }
+
+        messageBox.addEventListener(
+            "input",
+            updateCharacterCount
+        );
+
+        updateCharacterCount();
+    }
+
+
+    // Star Rating Text
+    const ratingInputs =
+        document.querySelectorAll(
+            '.star-rating input[name="rating"]'
+        );
+
+    const ratingText =
+        document.getElementById("ratingText");
+
+    if (ratingInputs.length && ratingText) {
+
+        const ratingMessages = {
+            "1": "Poor — We'll work to improve.",
+            "2": "Fair — Thanks for sharing.",
+            "3": "Good — We appreciate your feedback.",
+            "4": "Very Good — We're glad you enjoyed it.",
+            "5": "Excellent — Thank you for your support!"
+        };
+
+        ratingInputs.forEach(function (input) {
+
+            input.addEventListener("change", function () {
+
+                ratingText.textContent =
+                    ratingMessages[this.value];
+
+                ratingText.style.color = "#ff9900";
+                ratingText.style.fontWeight = "600";
+            });
+
+        });
+    }
 
 });

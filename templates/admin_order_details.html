@@ -83,8 +83,8 @@
                     <div>
                         <span>Order Date</span>
                         <strong>
-                            {{ order.created_at.strftime('%d %b %Y, %I:%M %p') }}
-                        </strong>
+    {{ to_ist(order.created_at).strftime('%d %b %Y, %I:%M %p') }}
+</strong>
                     </div>
 
                 </div>

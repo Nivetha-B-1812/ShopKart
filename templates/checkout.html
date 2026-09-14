@@ -221,6 +221,12 @@
     ₹{{ "%.2f"|format(subtotal) }}
 </span>
             </div>
+            <div class="checkout-summary-row">
+    <span>Discount (10%)</span>
+    <strong style="color: #16821a;">
+        -₹{{ "%.2f"|format(subtotal * 0.10) }}
+    </strong>
+</div>
 
             <div class="checkout-summary-row">
                 <span>Delivery</span>
@@ -231,8 +237,8 @@
 
             <div class="checkout-total">
                 <span>Total</span>
-<strong id="checkoutTotal" style="color:  #16821a;">
-    ₹{{ "%.2f"|format(total) }}
+<strong id="checkoutTotal" style="color: #16821a;">
+    ₹{{ "%.2f"|format(subtotal - (subtotal * 0.10)) }}
 </strong>
             </div>
 

@@ -8,21 +8,41 @@
 
     <div class="product-details">
 
-        <!-- PRODUCT IMAGE -->
+        <!-- Product Image -->
         <div class="product-details-image">
 
             <img
                 src="{{ url_for(
                     'static',
-                    filename='images/products/' + product.category.name + '/' + product.image
+                    filename='images/products/' ~
+                    product.category.name ~ '/' ~
+                    product.image
                 ) }}"
                 alt="{{ product.name }}"
             >
 
+            <button
+                type="button"
+                class="image-wishlist-btn"
+                data-product-id="{{ product.id }}"
+                aria-label="Add to Wishlist"
+            >
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+            </button>
+
         </div>
 
 
-        <!-- PRODUCT INFORMATION -->
+        <!-- Product Information -->
         <div class="product-details-info">
 
             <p class="section-label">SHOPKART</p>
@@ -34,11 +54,11 @@
             </p>
 
             <div class="product-rating">
-                ★ {{ product.rating }}
+                ★ {{ product_rating }}
             </div>
 
             <div class="details-price">
-               ₹{{ "%.2f"|format(product.price) }}
+                ₹{{ "%.2f"|format(product.price) }}
             </div>
 
             <p class="details-description">
@@ -46,18 +66,21 @@
             </p>
 
             <p class="stock-status">
-                In Stock
+                {% if product.stock > 0 %}
+                    In Stock
+                    <span>({{ product.stock }} available)</span>
+                {% else %}
+                    Out of Stock
+                {% endif %}
             </p>
 
-
-                         <!-- QUANTITY -->
+            <!-- Quantity -->
             <div class="quantity-box">
 
                 <button
                     type="button"
                     class="quantity-minus"
-                    id="quantityMinus"
-                    aria-label="Decrease quantity">
+                    id="quantityMinus">
                     −
                 </button>
 
@@ -70,17 +93,16 @@
                 <button
                     type="button"
                     class="quantity-plus"
-                    id="quantityPlus"
-                    aria-label="Increase quantity">
+                    id="quantityPlus">
                     +
                 </button>
 
             </div>
 
-            <!-- ACTIONS -->
+
+            <!-- Actions -->
             <div class="details-actions">
 
-                <!-- ADD TO CART -->
                 <button
                     type="button"
                     class="add-cart-btn"
@@ -89,8 +111,6 @@
                     Add to Cart
                 </button>
 
-
-                <!-- BUY NOW -->
                 <button
                     type="button"
                     class="buy-now-btn"
@@ -104,6 +124,181 @@
         </div>
 
     </div>
+  
+<!-- Customer Reviews -->
+<section class="reviews-section">
+
+    <div class="reviews-header">
+
+        <div class="reviews-title">
+            <p class="section-label">CUSTOMER FEEDBACK</p>
+
+            <h2>Customer Reviews</h2>
+
+            <p>See what other customers think about this product.</p>
+        </div>
+
+        <div class="reviews-summary">
+            <div class="review-average">
+                {{ review_average }}
+            </div>
+
+            <div class="review-stars">
+                {% for i in range(1, 6) %}
+                    {% if i <= review_average|round(0, 'floor') %}
+                        <span class="star filled">★</span>
+                    {% else %}
+                        <span class="star">★</span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="review-count">
+                {{ reviews|length }}
+                review{% if reviews|length != 1 %}s{% endif %}
+            </div>
+        </div>
+
+    </div>
+
+    <div class="review-divider"></div>
+
+    {% if reviews %}
+
+        <div class="reviews-list">
+
+            {% for review in reviews %}
+
+                <div class="review-card">
+
+                    <div class="review-card-top">
+
+                        <div class="review-user">
+
+                            <div class="review-avatar">
+                                {{ review.user.full_name[0]|upper }}
+                            </div>
+
+                            <div>
+                                <h3>{{ review.user.full_name }}</h3>
+                                <span>
+                                    {{ review.created_at.strftime('%d %b %Y') }}
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <div class="review-rating">
+                            {% for i in range(1, 6) %}
+                                {% if i <= review.rating %}
+                                    <span class="star filled">★</span>
+                                {% else %}
+                                    <span class="star">★</span>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                    </div>
+
+                    <p class="review-comment">
+                        {{ review.comment }}
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="no-reviews">
+            <h3>No reviews yet</h3>
+            <p>
+                Be the first customer to share your feedback about this product.
+            </p>
+        </div>
+
+    {% endif %}
+    
+<!-- Write a Review -->
+
+<div class="write-review-section">
+
+    <div class="write-review-header">
+        <div>
+            <p class="section-label">SHARE YOUR EXPERIENCE</p>
+            <h3>Write a Review</h3>
+            <p>Tell other customers about your experience with this product.</p>
+        </div>
+    </div>
+
+    {% if session.get("logged_in") %}
+
+        <div class="write-review-form">
+
+            <div class="rating-input">
+
+                <label>Your Rating</label>
+
+                <div class="rating-stars">
+                    <button type="button" class="rating-star" data-rating="1">★</button>
+                    <button type="button" class="rating-star" data-rating="2">★</button>
+                    <button type="button" class="rating-star" data-rating="3">★</button>
+                    <button type="button" class="rating-star" data-rating="4">★</button>
+                    <button type="button" class="rating-star" data-rating="5">★</button>
+                </div>
+
+                <input type="hidden" id="reviewRating" value="0">
+
+            </div>
+
+            <div class="review-comment-input">
+
+                <label for="reviewComment">
+                    Your Feedback
+                </label>
+
+                <textarea
+                    id="reviewComment"
+                    rows="5"
+                    maxlength="1000"
+                    placeholder="Write your feedback about this product..."
+                ></textarea>
+
+                <div class="review-character-count">
+                    Maximum 1000 characters
+                </div>
+
+            </div>
+
+            <button
+                type="button"
+                class="submit-review-btn"
+                onclick="submitReview({{ product.id }})"
+            >
+                Submit Review
+            </button>
+
+            <p id="reviewMessage" class="review-message"></p>
+
+        </div>
+
+    {% else %}
+
+        <div class="review-login-message">
+            <p>Please login to write a review.</p>
+
+            <a href="{{ url_for('login') }}">
+                Login to Review
+            </a>
+        </div>
+
+    {% endif %}
+
+</div>
+
+</section>
 
 
     <!-- =====================================================
@@ -241,8 +436,8 @@
                     </span>
 
                     <strong>
-                        ★ {{ product.rating }} / 5
-                    </strong>
+    ★ {{ product_rating }} / 5
+</strong>
 
                 </div>
 
@@ -253,9 +448,14 @@
                         Availability
                     </span>
 
-                    <strong class="available">
-                        In Stock
-                    </strong>
+                    <p class="stock-status">
+    {% if product.stock > 0 %}
+        In Stock
+        <span>({{ product.stock }} available)</span>
+    {% else %}
+        Out of Stock
+    {% endif %}
+</p>
 
                 </div>
 
