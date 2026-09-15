@@ -1,3 +1,5 @@
+'''text
+
 🛒 ShopKart
 
 🛍️ Shop More, Worry Less.
@@ -366,3 +368,5 @@ Shop More, Worry Less.
 Built with HTML, CSS, JavaScript, Python, Flask & SQLAlchemy.
 
 </p>
+
+'''
