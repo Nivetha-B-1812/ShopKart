@@ -1,4 +1,5 @@
-'''text
+```text
+
 
 🛒 ShopKart
 
@@ -369,4 +370,4 @@ Built with HTML, CSS, JavaScript, Python, Flask & SQLAlchemy.
 
 </p>
 
-'''
+```
