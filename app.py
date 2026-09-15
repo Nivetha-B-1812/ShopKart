@@ -1077,20 +1077,9 @@ def place_order():
 
     db.session.commit()
 
-
     # =====================================================
-    # CLEAR CART
+    # SEND ORDER CONFIRMATION EMAIL
     # =====================================================
-
-    session["cart"] = {}
-
-
-    return jsonify({
-        "success": True,
-        "message": "Order placed successfully.",
-        "order_id": order_id,
-        "total": total
-    })
 
     # Get logged-in user
     user = User.query.get(session.get("user_id"))
@@ -1105,14 +1094,22 @@ def place_order():
             payment_method=order.payment_method
         )
 
+
+    # =====================================================
+    # CLEAR CART
+    # =====================================================
+
     session["cart"] = {}
     session.modified = True
+
 
     return jsonify({
         "success": True,
         "message": "Order placed successfully.",
-        "order_id": order_id
+        "order_id": order.order_id,
+        "total": order.total
     })
+
     
 @app.route("/order-success/<order_id>")
 def order_success(order_id):
@@ -1536,7 +1533,8 @@ def feedback():
             name=name,
             email=email,
             rating=rating,
-            message=message
+            message=message,
+            feedback_category=feedback_category
         )
 
         db.session.add(new_feedback)

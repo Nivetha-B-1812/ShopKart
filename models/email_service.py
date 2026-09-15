@@ -23,6 +23,7 @@ def send_order_confirmation_email(
             print("Mail credentials are missing.")
             return False
 
+        # Decrypt customer email only when sending
         customer_email = decrypt_email(encrypted_email)
 
         message = EmailMessage()
@@ -103,6 +104,7 @@ def send_order_status_email(
             print("Mail credentials are missing.")
             return False
 
+        # Decrypt customer email only when sending
         customer_email = decrypt_email(encrypted_email)
 
         message = EmailMessage()
