@@ -207,24 +207,27 @@
        class="header-action admin-header-action"
        aria-label="Manage Orders">
 
-        <svg viewBox="0 0 24 24"
-             xmlns="http://www.w3.org/2000/svg"
-             aria-hidden="true">
-
-            <path d="M5 19L10.2 5H13.8L19 19"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"/>
-
-            <path d="M7.2 14H16.8"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"/>
-
-        </svg>
+       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <rect x="5" y="4" width="14" height="17" rx="2"
+          stroke="currentColor"
+          stroke-width="1.8"/>
+    <path d="M9 4.5V3.5C9 2.67 9.67 2 10.5 2h3C14.33 2 15 2.67 15 3.5v1"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"/>
+    <path d="M9 9H15"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"/>
+    <path d="M9 13H15"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"/>
+    <path d="M9 17H13"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"/>
+</svg>
 
         <span>Manage Orders</span>
 
@@ -265,6 +268,8 @@
 
     {% endif %}
     
+    
+    {% if not is_admin() %}
 <!-- WISHLIST -->
 <a href="{{ url_for('wishlist') }}" class="header-action wishlist-action" aria-label="Wishlist">
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -320,6 +325,7 @@
 
     </a>
 
+   {% endif %}
 </nav>
 
 
@@ -327,7 +333,7 @@
 
         </header>
 
-
+{% if not is_admin() %}
 <!-- NAVIGATION BAR -->
 <nav class="category-nav" aria-label="Shop categories">
 
@@ -381,7 +387,7 @@
     </div>
 
 </nav>
-
+{% endif %}
 
     <!-- MAIN CONTENT -->
     <main class="main-content">
@@ -392,7 +398,7 @@
 
     </main>
 
-
+{% if not is_admin() %}
     <!-- FOOTER -->
     <footer class="site-footer">
 
@@ -487,6 +493,7 @@
         </div>
 
     </footer>
+    {% endif %}
 
 
     <!-- JAVASCRIPT -->

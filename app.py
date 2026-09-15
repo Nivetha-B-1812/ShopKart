@@ -144,9 +144,17 @@ def login():
         data.get("remember", False)
     )
 
+    if is_admin():
+        return jsonify({
+            "success": True,
+            "message": "Admin login successful.",
+            "redirect": url_for("admin_dashboard")
+        })
+
     return jsonify({
         "success": True,
-        "message": "Login successful."
+        "message": "Login successful.",
+        "redirect": url_for("home")
     })
     
 @app.route("/signup", methods=["GET", "POST"])
@@ -252,6 +260,10 @@ def logout():
     
 @app.route("/account")
 def account():
+
+    if is_admin():
+        return render_template("admin_account.html")
+
     return render_template("account.html")
     
 @app.route("/profile")
@@ -722,19 +734,19 @@ def submit_review(product_id):
     if not comment:
         return jsonify({
             "success": False,
-            "message": "Please write your feedback."
+            "message": "Please write your ."
         }), 400
 
     if len(comment) < 5:
         return jsonify({
             "success": False,
-            "message": "Feedback must contain at least 5 characters."
+            "message": " must contain at least 5 characters."
         }), 400
 
     if len(comment) > 1000:
         return jsonify({
             "success": False,
-            "message": "Feedback cannot exceed 1000 characters."
+            "message": " cannot exceed 1000 characters."
         }), 400
 
     user_id = session.get("user_id")
@@ -996,7 +1008,22 @@ def place_order():
             "success": False,
             "message": "No valid products found in cart."
         }), 400
+        # Check stock before placing the order
+    for item in cart_items:
+        product = item["product"]
+        quantity = item["quantity"]
 
+        if product.stock <= 0:
+            return jsonify({
+                "success": False,
+                "message": f"{product.name} is currently out of stock."
+            }), 400
+
+        if quantity > product.stock:
+            return jsonify({
+                "success": False,
+                "message": f"Only {product.stock} unit(s) of {product.name} are available."
+            }), 400
 
     # =====================================================
     # SUBTOTAL + 10% DISCOUNT + FINAL TOTAL
@@ -1456,31 +1483,89 @@ def update_order_status(order_id):
             "message": "Order not found."
         }), 404
 
-    # Save the new status
+    # Update order status
     order.status = new_status
 
-    db.session.commit()
+    try:
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
 
-    # Find the customer account
-    user = User.query.filter_by(
-        email_lookup=email_lookup(order.email)
-    ).first()
+        return jsonify({
+            "success": False,
+            "message": "Unable to update order status."
+        }), 500
 
-    # Send status notification email
-    if user and user.email_encrypted:
+    # Send customer notification separately
+    email_sent = False
 
-        send_order_status_email(
-            encrypted_email=user.email_encrypted,
-            customer_name=user.full_name,
-            order_id=order.order_id,
-            status=order.status
-        )
+    try:
+        user = User.query.filter_by(
+            email_lookup=email_lookup(order.email)
+        ).first()
+
+        if user and user.email_encrypted:
+
+            send_order_status_email(
+                encrypted_email=user.email_encrypted,
+                customer_name=user.full_name,
+                order_id=order.order_id,
+                status=order.status
+            )
+
+            email_sent = True
+
+    except Exception as e:
+        # Email failure should NOT undo the status update
+        print("Order status email error:", e)
+
+    if email_sent:
+        message = "Order status updated and customer notified."
+    else:
+        message = "Order status updated successfully."
 
     return jsonify({
         "success": True,
-        "message": "Order status updated and customer notified.",
+        "message": message,
         "status": order.status
     })
+    
+@app.before_request
+def block_customer_pages_for_admin():
+    # Only apply this restriction to logged-in admin users
+    if not session.get("logged_in") or not is_admin():
+        return
+
+    # Admin is allowed to access these pages
+    allowed_endpoints = {
+    "admin_dashboard",
+    "admin_products",
+    "admin_edit_product",
+    "update_admin_product",
+    "admin_orders",
+    "admin_order_details",
+    "admin_",
+    "update_order_status",
+    "account",
+    "profile",
+    "edit_profile",
+    "edit_address",
+    "change_password",
+    "logout",
+    "login",
+    "static",
+    "admin_feedback",
+    "edit_admin_feedback",
+    "remove_admin_feedback"
+
+}
+
+    # Allow admin pages and account/security pages
+    if request.endpoint in allowed_endpoints:
+        return
+
+    # Block every other customer-side route
+    return redirect(url_for("admin_dashboard"))
     
 # =========================================================
 # CONTACT US
@@ -1495,9 +1580,8 @@ def help_center():
     return render_template("help_center.html")
     
 # =========================================================
-# CUSTOMER FEEDBACK
+# CUSTOMER 
 # =========================================================
-
 @app.route("/feedback", methods=["GET", "POST"])
 def feedback():
 
@@ -1546,10 +1630,11 @@ def feedback():
         )
 
     return render_template(
-    "feedback.html",
-    user_name=session.get("user_name", ""),
-    user_email=session.get("user_email", "")
-)
+        "feedback.html",
+        user_name=session.get("user_name", ""),
+        user_email=session.get("user_email", "")
+    )
+
     
 # =========================================================
 # ADMIN - CUSTOMER FEEDBACK
@@ -1569,6 +1654,86 @@ def admin_feedback():
         "admin_feedback.html",
         feedbacks=feedbacks
     )
+    
+@app.route("/admin/feedback/<int:feedback_id>/edit", methods=["POST"])
+def edit_admin_feedback(feedback_id):
+
+    if not is_admin():
+        return jsonify({
+            "success": False,
+            "message": "Admin access required."
+        }), 403
+
+    feedback = Feedback.query.get(feedback_id)
+
+    if not feedback:
+        return jsonify({
+            "success": False,
+            "message": "Feedback not found."
+        }), 404
+
+    data = request.get_json(silent=True) or {}
+
+    rating = data.get("rating")
+    message = data.get("message", "").strip()
+    feedback_category = data.get("feedback_category", "").strip()
+
+    if rating is None or not message:
+        return jsonify({
+            "success": False,
+            "message": "Please fill in all required fields."
+        }), 400
+
+    try:
+        rating = int(rating)
+    except (TypeError, ValueError):
+        return jsonify({
+            "success": False,
+            "message": "Invalid rating."
+        }), 400
+
+    if rating < 1 or rating > 5:
+        return jsonify({
+            "success": False,
+            "message": "Rating must be between 1 and 5."
+        }), 400
+
+    feedback.rating = rating
+    feedback.message = message
+    feedback.feedback_category = feedback_category
+
+    db.session.commit()
+
+    return jsonify({
+        "success": True,
+        "message": "Feedback updated successfully."
+    })
+
+
+@app.route("/admin/feedback/<int:feedback_id>/remove", methods=["POST"])
+def remove_admin_feedback(feedback_id):
+
+    if not is_admin():
+        return jsonify({
+            "success": False,
+            "message": "Admin access required."
+        }), 403
+
+    feedback = Feedback.query.get(feedback_id)
+
+    if not feedback:
+        return jsonify({
+            "success": False,
+            "message": "Feedback not found."
+        }), 404
+
+    db.session.delete(feedback)
+    db.session.commit()
+
+    return jsonify({
+        "success": True,
+        "message": "Feedback removed successfully."
+    })
 # =========================================================
 # UPDATE CART QUANTITY
 # =========================================================

@@ -18,16 +18,19 @@
 
             {% for feedback in feedbacks %}
 
-                <article class="admin-feedback-card">
+                <article class="admin-feedback-card"
+                         id="feedback-{{ feedback.id }}">
 
                     <div class="feedback-card-top">
 
                         <div>
                             <h2>{{ feedback.name }}</h2>
                             <p>{{ feedback.email }}</p>
+
                             <p class="admin-feedback-category">
-    Category: {{ feedback.feedback_category or "General" }}
-</p>
+                                Category:
+                                {{ feedback.feedback_category or "General" }}
+                            </p>
                         </div>
 
                         <div class="admin-feedback-rating">
@@ -45,6 +48,29 @@
                         {{ feedback.created_at.strftime("%d %b %Y, %I:%M %p") }}
                     </div>
 
+                    <!-- ADMIN ACTIONS -->
+                    <div class="admin-feedback-actions">
+
+                      <button
+    type="button"
+    class="feedback-edit-btn"
+    data-id="{{ feedback.id }}"
+    data-rating="{{ feedback.rating }}"
+    data-message="{{ feedback.message|e }}"
+    data-category="{{ feedback.feedback_category or 'General' }}"
+    onclick="openEditFeedback(this)">
+    Edit
+</button>
+
+                        <button
+                            type="button"
+                            class="feedback-remove-btn"
+                            onclick="removeFeedback({{ feedback.id }})">
+                            Remove
+                        </button>
+
+                    </div>
+
                 </article>
 
             {% endfor %}
@@ -55,11 +81,304 @@
 
         <div class="no-feedback">
             <h2>No Customer Feedback Yet</h2>
-            <p>Customer feedback will appear here after someone submits the feedback form.</p>
+            <p>
+                Customer feedback will appear here after someone
+                submits the feedback form.
+            </p>
         </div>
 
     {% endif %}
 
 </section>
+
+
+<!-- EDIT FEEDBACK MODAL -->
+
+<div id="feedbackEditModal" class="feedback-modal">
+
+    <div class="feedback-modal-box">
+
+        <div class="feedback-modal-header">
+            <div>
+                <p class="section-label">SHOPKART ADMIN</p>
+                <h2>Edit Feedback</h2>
+            </div>
+
+            <button
+                type="button"
+                class="feedback-modal-close"
+                onclick="closeFeedbackModal()">
+                ×
+            </button>
+        </div>
+
+
+        <div class="feedback-edit-form">
+
+            <label for="editFeedbackRating">
+                Rating
+            </label>
+
+            <select id="editFeedbackRating">
+                <option value="1">1 / 5</option>
+                <option value="2">2 / 5</option>
+                <option value="3">3 / 5</option>
+                <option value="4">4 / 5</option>
+                <option value="5">5 / 5</option>
+            </select>
+
+
+            <label for="editFeedbackCategory">
+                Category
+            </label>
+
+            <select id="editFeedbackCategory">
+                <option value="General">General</option>
+                <option value="Product">Product</option>
+                <option value="Delivery">Delivery</option>
+                <option value="Website">Website</option>
+                <option value="Service">Service</option>
+            </select>
+
+
+            <label for="editFeedbackMessage">
+                Feedback
+            </label>
+
+            <textarea
+                id="editFeedbackMessage"
+                rows="5"
+                placeholder="Enter customer feedback"></textarea>
+
+
+            <div class="feedback-modal-actions">
+
+                <button
+                    type="button"
+                    class="feedback-cancel-btn"
+                    onclick="closeFeedbackModal()">
+                    Cancel
+                </button>
+
+                <button
+                    type="button"
+                    class="feedback-save-btn"
+                    onclick="saveFeedback()">
+                    Save Changes
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+let editingFeedbackId = null;
+
+
+/* OPEN EDIT MODAL */
+
+function openEditFeedback(button) {
+
+    const id = button.dataset.id;
+    const rating = button.dataset.rating;
+    const message = button.dataset.message;
+    const category = button.dataset.category;
+
+    editingFeedbackId = id;
+
+    document.getElementById("editFeedbackRating").value =
+        String(rating);
+
+    document.getElementById("editFeedbackMessage").value =
+        message;
+
+    const categorySelect =
+        document.getElementById("editFeedbackCategory");
+
+    const categoryExists =
+        [...categorySelect.options].some(
+            option => option.value === category
+        );
+
+    if (categoryExists) {
+        categorySelect.value = category;
+    } else {
+        categorySelect.value = "General";
+    }
+
+    document.getElementById("feedbackEditModal")
+        .classList.add("active");
+}
+
+/* CLOSE EDIT MODAL */
+
+function closeFeedbackModal() {
+
+    editingFeedbackId = null;
+
+    document.getElementById("feedbackEditModal")
+        .classList.remove("active");
+}
+
+
+/* SAVE EDITED FEEDBACK */
+
+async function saveFeedback() {
+
+    if (!editingFeedbackId) {
+        return;
+    }
+
+    const rating =
+        document.getElementById("editFeedbackRating").value;
+
+    const message =
+        document.getElementById("editFeedbackMessage")
+            .value
+            .trim();
+
+    const feedback_category =
+        document.getElementById("editFeedbackCategory").value;
+
+
+    if (!message) {
+
+        alert("Please enter feedback.");
+
+        return;
+    }
+
+
+    try {
+
+        const response = await fetch(
+            `/admin/feedback/${editingFeedbackId}/edit`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    rating: rating,
+                    message: message,
+                    feedback_category: feedback_category
+                })
+            }
+        );
+
+
+        const result = await response.json();
+
+
+        if (result.success) {
+
+            alert(result.message);
+
+            window.location.reload();
+
+        } else {
+
+            alert(
+                result.message ||
+                "Unable to update feedback."
+            );
+        }
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Something went wrong. Please try again later."
+        );
+    }
+}
+
+
+/* REMOVE FEEDBACK */
+
+async function removeFeedback(id) {
+
+    const confirmed = confirm(
+        "Are you sure you want to remove this feedback?"
+    );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    try {
+
+        const response = await fetch(
+            `/admin/feedback/${id}/remove`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+
+
+        const result = await response.json();
+
+
+        if (result.success) {
+
+            const card =
+                document.getElementById(
+                    `feedback-${id}`
+                );
+
+            if (card) {
+                card.remove();
+            }
+
+            alert(result.message);
+
+        } else {
+
+            alert(
+                result.message ||
+                "Unable to remove feedback."
+            );
+        }
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Something went wrong. Please try again later."
+        );
+    }
+}
+
+
+/* CLOSE MODAL WHEN CLICKING OUTSIDE */
+
+document.getElementById("feedbackEditModal")
+    .addEventListener("click", function(event) {
+
+        if (event.target === this) {
+            closeFeedbackModal();
+        }
+
+    });
+
+</script>
 
 {% endblock %}

@@ -61,17 +61,27 @@
 
         </div>
 
-        <div class="order-success-actions">
+<div class="order-success-actions">
 
-            <a href="{{ url_for('orders') }}" class="view-orders-btn">
-                View My Orders
-            </a>
+    {% if is_admin() %}
 
-            <a href="{{ url_for('home') }}" class="continue-shopping-btn">
-                Continue Shopping
-            </a>
+        <a href="{{ url_for('admin_dashboard') }}" class="continue-shopping">
+            Continue to Admin Dashboard
+        </a>
 
-        </div>
+    {% else %}
+
+        <a href="{{ url_for('orders') }}" class="view-orders-btn">
+            View My Orders
+        </a>
+
+        <a href="{{ url_for('home') }}" class="continue-shopping">
+            Continue Shopping
+        </a>
+
+    {% endif %}
+
+</div>
 
     </div>
 
