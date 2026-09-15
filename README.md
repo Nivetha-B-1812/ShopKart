@@ -2,177 +2,180 @@
 
 🛍️ Shop More, Worry Less.
 
-A professional full-stack e-commerce web application inspired by modern online shopping platforms, developed as an academic Full Stack Web Development project.
+ShopKart is a professional full-stack e-commerce web application designed to provide a modern, secure, and user-friendly online shopping experience.
 
-🌐 Live Application: https://shopkart-5q9a.onrender.com
-
----
-
-✨ About ShopKart
-
-ShopKart is a full-stack e-commerce application designed to provide a smooth, modern, and user-friendly online shopping experience.
-
-The application includes product browsing, category-based shopping, search, cart management, secure authentication, checkout, order tracking, customer account management, and an admin dashboard.
+The application is inspired by modern e-commerce platforms while maintaining its own unique branding, design, features, and functionality.
 
 ---
 
-🚀 Key Features
+🔗 Project Links
 
-🏠 Customer Features
+📂 GitHub Repository
 
-- 🛍️ Professional home page
-- 📦 Browse products by category
-- 🔎 Product search
-- 🖼️ Product images and details
-- ⭐ Product ratings
-- 🛒 Add products to cart
-- ➕➖ Update product quantity
-- ❌ Remove products from cart
-- 💰 Dynamic cart total
-- ⚡ Buy Now option
-- 💳 Checkout and simulated payment
-- 📋 Order summary
-- 📦 Order tracking
-- 👤 Customer account
-- 📝 Edit profile
-- 🔐 Change password
-- 🚪 Secure logout
+https://github.com/Nivetha-B-1812/ShopKart
+
+🌐 Live Website
+
+https://shopkart-5q9a.onrender.com
 
 ---
 
-🗂️ Product Categories
+📌 About ShopKart
 
-ShopKart currently contains 8 categories with 48 products.
+ShopKart is a complete e-commerce web application developed as part of a Full Stack Web Development academic project.
+
+It provides users with a complete online shopping experience including product browsing, category navigation, search, authentication, cart management, checkout, order tracking, wishlist, and account management.
+
+The application also includes a dedicated Admin Dashboard for managing products, orders, stock, pricing, ratings, and order status.
+
+---
+
+✨ Key Features
+
+👤 Customer Features
+
+Feature| Description
+🏠 Home Page| Professional e-commerce landing page
+🔍 Product Search| Search for products quickly
+🗂️ Categories| Browse products by category
+🖼️ Product Details| View product information and images
+🛒 Add to Cart| Add products to the shopping cart
+➕➖ Quantity Control| Increase or decrease product quantity
+❌ Remove Product| Remove products from the cart
+💰 Dynamic Total| Automatically calculate cart total
+⚡ Buy Now| Direct purchase option
+💳 Checkout| Complete the checkout process
+📦 Order Management| View current and previous orders
+🚚 Order Tracking| Track order status
+❤️ Wishlist| Save favorite products
+👤 Profile| Manage customer profile
+🔑 Password Management| Change account password
+🚪 Logout| Securely logout from the account
+
+---
+
+🛍️ Product Categories
+
+ShopKart provides 8 major product categories with a collection of products for a realistic shopping experience.
 
 Category| Products
-💻 Electronics| 6
-👗 Fashion| 6
+📱 Electronics| 6
+👕 Fashion| 6
 🏠 Home & Kitchen| 6
 📚 Books| 6
 🎮 Gaming| 6
 🍎 Fruits| 6
 🥕 Vegetables| 6
 🛒 Grocery| 6
-
-Total: 48 Products
-
----
-
-🔐 Security Features
-
-ShopKart includes security-focused features for user accounts and sensitive information.
-
-- 🔒 Secure password hashing
-- 🔐 Encrypted email storage
-- 🛡️ Authenticated encryption using PyNaCl
-- 🔑 HMAC-based email lookup
-- 🍪 Session-based authentication
-- 🔒 Environment variables for sensitive credentials
-- 🚫 Sensitive configuration excluded from GitHub using ".gitignore"
+Total| 48
 
 ---
 
-👨‍💼 Admin Features
+🛠️ Admin Dashboard
 
-ShopKart includes a dedicated admin dashboard for managing the application.
+ShopKart includes a dedicated administration system for managing the e-commerce platform.
 
-📊 Admin Dashboard
+📊 Dashboard
 
-- 📦 Total orders
-- 💰 Total sales
-- 🟡 Confirmed orders
-- 📦 Packed orders
-- 🚚 Shipped orders
-- ✅ Delivered orders
-- ❌ Cancelled orders
-- 🕒 Recent orders
+Administrators can monitor:
+
+- 📦 Total Orders
+- 💰 Total Sales
+- ✅ Confirmed Orders
+- 📦 Packed Orders
+- 🚚 Shipped Orders
+- 🏠 Delivered Orders
+- ❌ Cancelled Orders
+- 🕒 Recent Orders
 
 📋 Order Management
 
-- 👀 View all customer orders
-- 📄 View order details
+Admins can:
+
+- 👀 View customer orders
+- 📄 View complete order details
 - 🔄 Update order status
+- 📦 Manage order workflow
 - 📧 Send order status notifications
 
 🛍️ Product Management
 
-- 📦 View all products
+Admins can:
+
+- 👀 View products
 - ✏️ Edit product information
-- 💰 Update price
-- 📊 Update stock
-- ⭐ Update rating
-- 🗂️ Change product category
-- 👀 View product details
+- 💰 Update product prices
+- 📦 Update stock
+- ⭐ Update product ratings
+- 🗂️ Change product categories
+- 📄 View product details
 
 ---
 
-📦 Order Status
+🚚 Order Workflow
 
-Orders can move through the following stages:
+ShopKart provides a structured order management process:
 
-🟡 Confirmed
+🟢 Confirmed
       ↓
 📦 Packed
       ↓
 🚚 Shipped
       ↓
-✅ Delivered
+🏠 Delivered
 
-Orders can also be marked as:
-
-❌ Cancelled
+Orders can also be cancelled when applicable.
 
 ---
-
-🛠️ Technology Stack
-
-🎨 Frontend
-
-- HTML5
-- CSS3
-- JavaScript
-
-⚙️ Backend
-
-- Python
-- Flask
-- Flask-SQLAlchemy
-
-🗄️ Database
-
-- SQLite
-- SQLAlchemy ORM
 
 🔐 Security
 
-- Werkzeug Password Hashing
-- PyNaCl
-- HMAC
-- Environment Variables
+Security is an important component of the ShopKart application.
 
-☁️ Deployment
+The project implements:
 
-- GitHub
-- Render
-- Gunicorn
+- 🔒 Secure password hashing
+- 🔐 Encrypted email storage
+- 🛡️ Authenticated encryption using PyNaCl
+- 🔑 HMAC-based email lookup
+- 👤 Session-based authentication
+- ⚙️ Environment variables for sensitive credentials
+- 🚫 ".gitignore" protection for confidential configuration
+
+Sensitive credentials and encryption keys are kept outside the public source code.
 
 ---
 
-```text
+💻 Technology Stack
+
+Layer| Technologies
+🎨 Frontend| HTML5, CSS3, JavaScript
+⚙️ Backend| Python, Flask
+🗄️ ORM| Flask-SQLAlchemy, SQLAlchemy
+💾 Database| SQLite
+🔐 Authentication| Flask Sessions, Werkzeug
+🛡️ Security| PyNaCl, HMAC
+📧 Email| SMTP / Email Service
+📂 Version Control| Git, GitHub
+☁️ Deployment| Render
+🚀 Production Server| Gunicorn
+
+---
+
 📁 Project Structure
 
 ShopKart/
 │
-├── app.py
-├── config.py
-├── requirements.txt
-├── .env
-├── .gitignore
+├── 📄 app.py
+├── 📄 config.py
+├── 📄 requirements.txt
+├── 🔐 .env
+├── 📄 .gitignore
 │
-├── database/
+├── 📂 database/
 │   └── shopkart.db
 │
-├── models/
+├── 📂 models/
 │   ├── __init__.py
 │   ├── user.py
 │   ├── category.py
@@ -183,7 +186,7 @@ ShopKart/
 │   ├── encryption.py
 │   └── email_service.py
 │
-├── templates/
+├── 📂 templates/
 │   ├── base.html
 │   ├── index.html
 │   ├── login.html
@@ -200,140 +203,129 @@ ShopKart/
 │   ├── admin_products.html
 │   └── admin_edit_product.html
 │
-└── static/
-    ├── css/
+└── 📂 static/
+    ├── 📂 css/
     │   └── style.css
     │
-    ├── js/
+    ├── 📂 js/
     │   └── script.js
     │
-    └── images/
+    └── 📂 images/
         ├── logo/
         ├── categories/
         └── products/
 
-```
 ---
 
-⚙️ Installation & Setup
+⚙️ Installation
 
 1️⃣ Clone the Repository
 
 git clone https://github.com/Nivetha-B-1812/ShopKart.git
 cd ShopKart
 
-2️⃣ Install Dependencies
+2️⃣ Create Virtual Environment
+
+python -m venv venv
+
+Windows
+
+venv\Scripts\activate
+
+Linux / macOS
+
+source venv/bin/activate
+
+3️⃣ Install Dependencies
 
 pip install -r requirements.txt
 
-3️⃣ Configure Environment Variables
+4️⃣ Configure Environment Variables
 
-Create a ".env" file and configure the required application secrets.
+Create a ".env" file in the project root:
 
 SECRET_KEY=your-secret-key
-
 SHOPKART_ENCRYPTION_KEY=your-encryption-key
-
 SHOPKART_MAIL_USERNAME=your-email
 SHOPKART_MAIL_PASSWORD=your-app-password
-
 SHOPKART_ADMIN_EMAIL=your-admin-email
-
 SHOPKART_CONTACT_EMAIL=your-contact-email
 SHOPKART_HELP_EMAIL=your-help-email
 
-«⚠️ Never upload the ".env" file or real passwords/keys to GitHub.»
+«⚠️ Never upload real passwords, API keys, or encryption keys to GitHub.»
 
----
-
-▶️ Run the Application
-
-Start the Flask application using:
+5️⃣ Run the Application
 
 python app.py
 
-Then open:
+Open the application in your browser:
 
 http://127.0.0.1:5000/
 
 ---
 
-📧 Email Notification
+☁️ Deployment
 
-ShopKart includes email notification functionality for:
+ShopKart is deployed using Render with Gunicorn as the production server.
 
-- 📩 Order confirmation
-- 🔄 Order status updates
+Deployment Flow
 
-The application uses the customer's encrypted email information and decrypts it only when authorized email delivery is required.
+📂 GitHub
+    ↓
+☁️ Render
+    ↓
+🚀 Gunicorn
+    ↓
+⚙️ Flask Application
 
-☁️ Deployment Note
-
-The local application successfully supports email notifications.
-
-However, the current Render Free Web Service environment restricts outbound SMTP traffic, so Gmail SMTP email delivery may not work after deployment.
-
-The application itself remains functional for:
-
-- 🔐 Login
-- 🛒 Cart
-- 💳 Checkout
-- 📦 Order placement
-- 👨‍💼 Admin management
-- 📋 Order tracking
-
----
-
-🌐 Deployment
-
-ShopKart is deployed using:
-
-- 🐙 GitHub for source code
-- ☁️ Render for hosting
-- 🚀 Gunicorn as the production WSGI server
-
-🔗 Live Website
+🌐 Live Website
 
 https://shopkart-5q9a.onrender.com
 
 ---
 
-🔮 Future Improvements
+📧 Email Notifications
 
-Planned improvements for future versions include:
+ShopKart supports email notification functionality for:
+
+- 📩 Order confirmation
+- 🔄 Order status updates
+- 📦 Order-related notifications
+
+Customer email information is protected using encryption and secure lookup mechanisms.
+
+---
+
+🚀 Future Enhancements
+
+Future versions of ShopKart can include:
 
 - 💳 Real payment gateway integration
-- 📧 HTTPS-based email API integration
-- 🗄️ PostgreSQL production database
+- 🐘 PostgreSQL production database
+- 📧 Advanced email API integration
 - 📱 Progressive Web App support
-- ❤️ Wishlist functionality
 - 🔔 Real-time notifications
 - 🎟️ Coupon and discount system
-- ⭐ Customer reviews
+- ⭐ Customer review system
 - 📊 Advanced admin analytics
 - 🚚 Improved delivery management
+- ❤️ Enhanced wishlist functionality
 
 ---
 
 🎓 Academic Project
 
-This project was developed as part of a Full Stack Web Development academic project.
+ShopKart was developed as a Full Stack Web Development academic project.
 
-The main objective is to demonstrate practical implementation of:
+The project demonstrates practical implementation of:
 
-Frontend
-   ↓
-Backend
-   ↓
-Database
-   ↓
-Authentication
-   ↓
-Security
-   ↓
-E-Commerce
-   ↓
-Deployment
+- 🎨 Frontend Development
+- ⚙️ Backend Development
+- 💾 Database Management
+- 👤 User Authentication
+- 🔐 Data Security
+- 🛒 E-Commerce Functionality
+- ☁️ Cloud Deployment
 
 ---
 
@@ -341,8 +333,21 @@ Deployment
 
 Nivetha Baskar
 
-🎓 B.Tech Information Technology
-💻 Full Stack Web Development Project
+B.Tech Information Technology
+
+Full Stack Web Development Project
+
+---
+
+🔗 Important Links
+
+📂 GitHub
+
+https://github.com/Nivetha-B-1812/ShopKart
+
+🌐 ShopKart
+
+https://shopkart-5q9a.onrender.com
 
 ---
 
@@ -350,12 +355,14 @@ Nivetha Baskar
 
 This project is developed for academic and educational purposes.
 
-© 2026 ShopKart. All rights reserved.
+Copyright © 2026 ShopKart.
 
 ---
 
-🛒 ShopKart
+<p align="center">🛒 ShopKart
 
 Shop More, Worry Less.
 
 Built with HTML, CSS, JavaScript, Python, Flask & SQLAlchemy.
+
+</p>
