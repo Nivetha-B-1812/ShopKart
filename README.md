@@ -9,7 +9,7 @@ ShopKart is a professional full-stack e-commerce web application designed to pro
 
 The application is inspired by modern e-commerce platforms while maintaining its own unique branding, design, features, and functionality.
 
----
+
 
 🔗 Project Links
 
@@ -21,7 +21,7 @@ https://github.com/Nivetha-B-1812/ShopKart
 
 https://shopkart-5q9a.onrender.com
 
----
+
 
 📌 About ShopKart
 
